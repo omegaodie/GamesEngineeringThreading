@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 #include "Debug.h"
+#include "Player.h"
 #include <SDL.h>
 
 class Game
@@ -24,6 +25,8 @@ private:
 	SDL_Rect m_Source;
 	SDL_Rect m_Destination;
 	SDL_Surface* m_p_Surface;
+	Player*  m_Player;
+ 
 };
 #endif
 

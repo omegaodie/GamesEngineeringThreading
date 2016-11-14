@@ -8,8 +8,9 @@ class Player : public GameObject
 public:
 	Player();
 	~Player();
-	void Initialize(const GameObjectParameters*); 
+	void Initialize(const GameObjectParameters*);
 	void Render();
+	void Render(SDL_Renderer* m_p);
 	void Update();
 	void CleanUp();
 };

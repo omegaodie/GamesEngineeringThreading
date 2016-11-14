@@ -19,7 +19,7 @@ bool Game::Initialize(const char* title, int xpos, int ypos, int width, int heig
 	{
 		DEBUG_MSG("SDL Init success");
 		m_p_Window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
-
+		m_Player = new Player();
 		if(m_p_Window != 0)
 		{
 			DEBUG_MSG("Window creation success");
@@ -85,14 +85,18 @@ void Game::Render()
 	DEBUG_MSG("Width Source" + m_Destination.w);
 	DEBUG_MSG("Width Destination" + m_Destination.w);
 
-	if(m_p_Renderer != nullptr && m_p_Texture != nullptr)
-		SDL_RenderCopy(m_p_Renderer, m_p_Texture, NULL, NULL);
+	if (m_p_Renderer != nullptr && m_p_Texture != nullptr)
+		//SDL_RenderCopy(m_p_Renderer, m_p_Texture, NULL, NULL);
+		m_Player->Render(m_p_Renderer);
+
+
 	SDL_RenderPresent(m_p_Renderer);
 }
 
 void Game::Update()
 {
 	//DEBUG_MSG("Updating....");
+	m_Player->Update();
 }
 
 void Game::HandleEvents()

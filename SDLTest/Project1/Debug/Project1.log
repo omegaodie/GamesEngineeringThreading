@@ -1,3 +1,17 @@
-﻿  Game.cpp
-  Project1.vcxproj -> C:\Users\gameuser\Desktop\ASTAR\SDLTest(1)\SDLTest\SDLTest\Project1\Debug\Project1.exe
-  Project1.vcxproj -> C:\Users\gameuser\Desktop\ASTAR\SDLTest(1)\SDLTest\SDLTest\Project1\Debug\Project1.pdb (Full PDB)
+﻿  Vector2D.cpp
+  TinyXML2.cpp
+  TileLayer.cpp
+  PlayerFactory.cpp
+  Player.cpp
+  GameObjectParameters.cpp
+  Level.cpp
+c:\users\gameuser\desktop\gamesengineering\gamesengineeringthreading\sdltest\project1\level.cpp(18): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\gamesengineering\gamesengineeringthreading\sdltest\project1\level.cpp(26): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+  Layer.cpp
+  GameObjectFactory.cpp
+  Game.cpp
+  GameObject.cpp
+  Generating Code...
+  Project1.vcxproj -> C:\Users\gameuser\Desktop\GAMESENGINEERING\GamesEngineeringThreading\SDLTest\Project1\Debug\Project1.exe
+  Project1.vcxproj -> C:\Users\gameuser\Desktop\GAMESENGINEERING\GamesEngineeringThreading\SDLTest\Project1\Debug\Project1.pdb (Full PDB)

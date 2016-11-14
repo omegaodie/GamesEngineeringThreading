@@ -2,6 +2,7 @@
 #define GAME_OBJECT_H
 
 #include <iostream>
+#include <SDL.h>
 #include "Debug.h"
 #include "GameObjectParameters.h"
 
@@ -20,8 +21,14 @@ public:
 	void SetX(int);
 	int GetY();
 	void SetY(int);
-private:
-	int m_x;
-	int m_y;
+protected:
+	int m_x;//world position
+	int m_y;//"
+	int f_x;// frame
+	int f_y;// frame
+	SDL_Texture* m_p_Texture;
+	SDL_Rect m_Source;
+	SDL_Rect m_Destination;
+	SDL_Surface* m_p_Surface;
 };
 #endif
