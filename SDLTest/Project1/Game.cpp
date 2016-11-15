@@ -60,6 +60,7 @@ void Game::LoadContent()
 	m_p_Texture = SDL_CreateTextureFromSurface(m_p_Renderer, m_p_Surface);
 	SDL_FreeSurface(m_p_Surface);
 
+	m_Player->Initialize(m_p_Renderer);
 	if(SDL_QueryTexture(m_p_Texture, NULL, NULL, &m_Source.w, &m_Destination.h)==0)
 	{
 		m_Destination.x = m_Source.x = 0;

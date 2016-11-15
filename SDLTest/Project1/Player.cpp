@@ -11,16 +11,36 @@ Player::~Player()
 	//32*48
 }
 
-void Player::Initialize(const GameObjectParameters* params)
+void Player::Initialize(const GameObjectParameters* params) {
+
+}
+
+void Player::Initialize(const GameObjectParameters* params, SDL_Renderer* m_p)
 {
 	DEBUG_MSG("Player Initializing");
 
-	m_p_Surface = SDL_LoadBMP("assets/leppy.png");
-	f_x = 0;
-	f_y = 0;
+	m_p_Surface = SDL_LoadBMP("assets/leppy.bmp");
+	m_p_Texture = SDL_CreateTextureFromSurface(m_p, m_p_Surface);
+	SDL_FreeSurface(m_p_Surface);
+	f_x = 32;
+	f_y = 48;
 
 	this->SetX(params->GetX());
 	this->SetY(params->GetY());
+}
+
+void Player::Initialize(SDL_Renderer* m_p)
+{
+	DEBUG_MSG("Player Initializing");
+
+	m_p_Surface = SDL_LoadBMP("assets/leppy.bmp");
+	m_p_Texture = SDL_CreateTextureFromSurface(m_p, m_p_Surface);
+	SDL_FreeSurface(m_p_Surface);
+	f_x = 32;
+	f_y = 48;
+
+	this->SetX(10);
+	this->SetY(10);
 }
 
 void Player::Render() {
@@ -29,7 +49,7 @@ void Player::Render() {
 
 void Player::Render(SDL_Renderer* m_p)
 {//32, 48, , m_y
-	m_p_Texture = SDL_CreateTextureFromSurface(m_p, m_p_Surface);
+
 	SDL_Rect* frame = new SDL_Rect();
 	frame->x = f_x;
 	frame->y = f_y;
