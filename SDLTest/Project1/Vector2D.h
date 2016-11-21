@@ -8,7 +8,7 @@ public:
 	float GetY();
 	void SetX(float);
 	void SetY(float);
-private:
+protected:
 	float m_x;
 	float m_y;
 };
