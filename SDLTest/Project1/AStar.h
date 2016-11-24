@@ -7,6 +7,7 @@
 
 #include "Debug.h"
 #include "Tile.h"
+#include "Vector2D.h"
 #include "Layer.h"
 
 using namespace std;
@@ -16,7 +17,7 @@ class AStar
 public:
 	AStar();
 	~AStar();
-	void Update(vector<Tile> v, Tile ot, Tile et);
+	void Update(Tile wTiles[10][10], Tile ot, Tile et);
 
 
 private:
