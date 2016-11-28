@@ -10,178 +10,130 @@ AStar::~AStar()
 
 }
 
-void AStar::Update(Tile wTiles[10][10], Tile ot, Tile et) {
+void AStar::Update(Tile start, Tile goal) {
+	std::priority_queue<Tile> open;
+	vector<Tile> closed;
 	vector<Tile> route;
-	vector<Tile> priorityQue;
-	Tile currentNode = ot;
-	currentNode.setFValue(et, ot);
 
-	std::vector<Tile>::iterator it;
-
+	Tile& currentNode = Tile();
+	open.push(goal);
 
 	bool routeFound = false;
-	vector<Tile> closed;
-	vector<Tile> open;
 
-	int currentLowestF;
-	while (routeFound == false)
+
+	while (!open.empty())
 	{
-		currentLowestF = currentNode.getF();
-		it = std::find(open.begin(), open.end(), currentNode);
-		if (it != open.end()) {
-			open.erase(it);
-		}
-
-		closed.push_back(currentNode);
-		if ((currentNode.GetX() == et.GetX()) && (currentNode.GetY() == et.GetY())) {
-			routeFound = true;
-		}
-		else 
-		{
-			priorityQue = currentNode.getNeighBours();
-			for each (Tile var in priorityQue)
+		currentNode = open.top();
+		if (currentNode.GetX() == goal.GetX()) {
+			if (currentNode.GetY() == goal.GetY())
 			{
-				if (var.getOpen()) {
-					var.setFValue(et, ot);
-					var.setParent(Vector2D(currentNode.GetX(), currentNode.GetY()));
-					it = std::find(open.begin(), open.end(), var);
-					if (it != open.end()) {
-						open.push_back(var);
+				routeFound = true;
+				//traceBack
+			}
+		}
+		open.pop();
+		closed.push_back(currentNode);
+		for each (Tile varOuter in currentNode.getNeighBours())
+		{
+			for each (Tile varInner in closed)
+			{
+				if (varOuter.GetX() == varInner.GetX()) {
+					if (varOuter.GetY() == varInner.GetY()) {
+						//
+						int tentative_g_score = currentNode.getG() + 
 					}
 				}
 			}
 		}
-		for each (Tile t in open)
-		{
-			if (t.getF() < currentLowestF) {
-				currentNode = t;
-			}
-		}
+
 	}
 }
 
 
-//// A-star algorithm.
-//// The route returned is a string of direction digits.
-//string AStar::pathFind(int & xStart, const int & yStart, const int & xFinish, const int & yFinish)
-//{
-//	static priority_queue<node> pq[2]; // list of open (not-yet-tried) nodes
-//	static int pqi; // pq index
-//	static node* n0;
-//	static node* m0;
-//	static int i, j, x, y, xdx, ydy;
-//	static char c;
-//	pqi = 0;
+//function A*(start, goal)
+//closedset : = the empty set    // The set of nodes already evaluated.
+//	openset : = { start }    // The set of tentative nodes to be evaluated, initially containing the start node
+//came_from: = the empty map    // The map of navigated nodes.
 //
-//	// reset the node maps
-//	for (y = 0; y<m; y++)
-//	{
-//		for (x = 0; x<n; x++)
-//		{
-//			closed_nodes_map[x][y] = 0;
-//			open_nodes_map[x][y] = 0;
-//		}
+//	g_score[start] : = 0    // Cost from start along best known path.
+//							// Estimated total cost from start to goal through y.
+//	f_score[start] : = g_score[start] + heuristic_cost_estimate(start, goal)
+//
+//	while openset is not empty
+//		current : = the node in openset having the lowest f_score[] value
+//		if current = goal
+//			return reconstruct_path(came_from, goal)
+//
+//			remove current from openset
+//			add current to closedset
+//			for each neighbor in neighbor_nodes(current)
+//				if neighbor in closedset
+//					continue
+//					tentative_g_score : = g_score[current] + dist_between(current, neighbor)
+//
+//					if neighbor not in openset or tentative_g_score < g_score[neighbor]
+//						came_from[neighbor] : = current
+//						g_score[neighbor] : = tentative_g_score
+//						f_score[neighbor] : = g_score[neighbor] + heuristic_cost_estimate(neighbor, goal)
+//						if neighbor not in openset
+//							add neighbor to openset
+//
+//							return failure
+//
+//function reconstruct_path(came_from, current)
+//	total_path : = [current]
+//		while current in came_from :
+//current: = came_from[current]
+//	total_path.append(current)
+//	return total_path
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//	currentLowestF = currentNode.getF();
+//
+//
+//	closed.push_back(currentNode);
+//	if ((currentNode.GetX() == et.GetX()) && (currentNode.GetY() == et.GetY())) {
+//		routeFound = true;
 //	}
-//
-//	// create the start node and push into list of open nodes
-//	n0 = new node(xStart, yStart, 0, 0);
-//	n0->updatePriority(xFinish, yFinish);
-//	pq[pqi].push(*n0);
-//	open_nodes_map[x][y] = n0->getPriority(); // mark it on the open nodes map
-//
-//											  // A* search
-//	while (!pq[pqi].empty())
+//	else
 //	{
-//		// get the current node w/ the highest priority
-//		// from the list of open nodes
-//		n0 = new node(pq[pqi].top().getxPos(), pq[pqi].top().getyPos(),
-//			pq[pqi].top().getLevel(), pq[pqi].top().getPriority());
-//
-//		x = n0->getxPos(); y = n0->getyPos();
-//
-//		pq[pqi].pop(); // remove the node from the open list
-//		open_nodes_map[x][y] = 0;
-//		// mark it on the closed nodes map
-//		closed_nodes_map[x][y] = 1;
-//
-//		// quit searching when the goal state is reached
-//		//if((*n0).estimate(xFinish, yFinish) == 0)
-//		if (x == xFinish && y == yFinish)
+//		priorityQue = currentNode.getNeighBours();
+//		for each (Tile var in priorityQue)
 //		{
-//			// generate the path from finish to start
-//			// by following the directions
-//			string path = "";
-//			while (!(x == xStart && y == yStart))
-//			{
-//				j = dir_map[x][y];
-//				c = '0' + (j + dir / 2) % dir;
-//				path = c + path;
-//				x += dx[j];
-//				y += dy[j];
-//			}
-//
-//			// garbage collection
-//			delete n0;
-//			// empty the leftover nodes
-//			while (!pq[pqi].empty()) pq[pqi].pop();
-//			return path;
-//		}
-//
-//		// generate moves (child nodes) in all possible directions
-//		for (i = 0; i<dir; i++)
-//		{
-//			xdx = x + dx[i]; ydy = y + dy[i];
-//
-//			if (!(xdx<0 || xdx>n - 1 || ydy<0 || ydy>m - 1 || map[xdx][ydy] == 1
-//				|| closed_nodes_map[xdx][ydy] == 1))
-//			{
-//				// generate a child node
-//				m0 = new node(xdx, ydy, n0->getLevel(),
-//					n0->getPriority());
-//				m0->nextLevel(i);
-//				m0->updatePriority(xFinish, yFinish);
-//
-//				// if it is not in the open list then add into that
-//				if (open_nodes_map[xdx][ydy] == 0)
-//				{
-//					open_nodes_map[xdx][ydy] = m0->getPriority();
-//					pq[pqi].push(*m0);
-//					// mark its parent node direction
-//					dir_map[xdx][ydy] = (i + dir / 2) % dir;
+//			if (var.getOpen()) {
+//				var.setFValue(et, ot);
+//				var.setParent(Vector2D(currentNode.GetX(), currentNode.GetY()));
+//				it = std::find(open.begin(), open.end(), var);
+//				if (it != open.end()) {
+//					open.push_back(var);
 //				}
-//				else if (open_nodes_map[xdx][ydy]>m0->getPriority())
-//				{
-//					// update the priority info
-//					open_nodes_map[xdx][ydy] = m0->getPriority();
-//					// update the parent direction info
-//					dir_map[xdx][ydy] = (i + dir / 2) % dir;
-//
-//					// replace the node
-//					// by emptying one pq to the other one
-//					// except the node to be replaced will be ignored
-//					// and the new node will be pushed in instead
-//					while (!(pq[pqi].top().getxPos() == xdx &&
-//						pq[pqi].top().getyPos() == ydy))
-//					{
-//						pq[1 - pqi].push(pq[pqi].top());
-//						pq[pqi].pop();
-//					}
-//					pq[pqi].pop(); // remove the wanted node
-//
-//								   // empty the larger size pq to the smaller one
-//					if (pq[pqi].size()>pq[1 - pqi].size()) pqi = 1 - pqi;
-//					while (!pq[pqi].empty())
-//					{
-//						pq[1 - pqi].push(pq[pqi].top());
-//						pq[pqi].pop();
-//					}
-//					pqi = 1 - pqi;
-//					pq[pqi].push(*m0); // add the better node instead
-//				}
-//				else delete m0; // garbage collection
 //			}
 //		}
-//		delete n0; // garbage collection
 //	}
-//	return ""; // no route found
+//	for each (Tile t in open)
+//	{
+//		if (t.getF() < currentLowestF) {
+//			currentNode = t;
+//		}
+//	}
 //}

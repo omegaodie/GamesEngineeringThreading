@@ -22,6 +22,8 @@ public:
 	int getH();
 	int getF();
 
+	Vector2D getV2D();
+
 	bool getOpen();
 
 	vector<Tile> getNeighBours();

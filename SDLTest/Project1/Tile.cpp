@@ -89,6 +89,11 @@ int Tile::getF() {
 	return f_Cost;
 }
 
+Vector2D Tile::getV2D()
+{
+	return Vector2D(GetX(), GetY());
+}
+
 
 bool Tile::getOpen() {
 	return isOpen;
@@ -96,7 +101,7 @@ bool Tile::getOpen() {
 
 vector<Tile> Tile::getNeighBours()
 {
-
+	neighbours.reserve(100);
 	if ((m_x > 0) && (m_y > 0)) {
 		neighbours[0] = Tile(m_x - 1, m_y - 1);
 		neighbours[1] = Tile(m_x - 1, m_y);
