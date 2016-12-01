@@ -3,6 +3,7 @@
 #include "Debug.h"
 #include "Player.h"
 #include <SDL.h>
+#include "AStar.h"
 
 class Game
 {
@@ -18,6 +19,7 @@ public:
 	bool IsRunning();
 	void CleanUp();
 private:
+	AStar myStar;
 	bool m_running;
 	SDL_Window* m_p_Window;
 	SDL_Renderer* m_p_Renderer;

@@ -19,7 +19,8 @@ bool Game::Initialize(const char* title, int xpos, int ypos, int width, int heig
 	{
 		DEBUG_MSG("SDL Init success");
 		m_p_Window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
-		m_Player = new Player();
+		myStar = AStar();
+		
 		if(m_p_Window != 0)
 		{
 			DEBUG_MSG("Window creation success");
@@ -60,7 +61,7 @@ void Game::LoadContent()
 	m_p_Texture = SDL_CreateTextureFromSurface(m_p_Renderer, m_p_Surface);
 	SDL_FreeSurface(m_p_Surface);
 
-	m_Player->Initialize(m_p_Renderer);
+	//m_Player->Initialize(m_p_Renderer);
 	if(SDL_QueryTexture(m_p_Texture, NULL, NULL, &m_Source.w, &m_Destination.h)==0)
 	{
 		m_Destination.x = m_Source.x = 0;
@@ -88,7 +89,7 @@ void Game::Render()
 
 	if (m_p_Renderer != nullptr && m_p_Texture != nullptr)
 		//SDL_RenderCopy(m_p_Renderer, m_p_Texture, NULL, NULL);
-		m_Player->Render(m_p_Renderer);
+		//m_Player->Render(m_p_Renderer);
 
 
 	SDL_RenderPresent(m_p_Renderer);
@@ -97,7 +98,8 @@ void Game::Render()
 void Game::Update()
 {
 	//DEBUG_MSG("Updating....");
-	m_Player->Update();
+	myStar.getValue(2, 4, 6, 1);
+	//m_Player->Update();
 }
 
 void Game::HandleEvents()

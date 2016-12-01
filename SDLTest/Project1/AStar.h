@@ -18,12 +18,12 @@ class AStar
 public:
 	AStar();
 	~AStar();
-	void Update( Tile ot, Tile et);
+	void getValue(int x1, int y1, int x2, int y2);
+	void sort( Tile* ot, Tile* et);
 
 
 private:
-	Tile theTiles[10][10];
-	vector<Tile> m_TileSet;
+	Tile* theTiles[10][10];
 	vector<Layer*> m_Layers;
 };
 #endif

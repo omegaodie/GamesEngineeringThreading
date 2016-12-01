@@ -15,30 +15,40 @@ public:
 	Tile();
 	Tile(float x, float y) : Vector2D(x, y) {
 		isOpen = false;
+		isClosed = false;
 	};
 	~Tile();
 
 	int getG();
 	int getH();
-	int getF();
+	int getF() const;
 
 	Vector2D getV2D();
+	int estimateDist(Tile  *tile);
+
+	bool getEqual(Tile* t);
 
 	bool getOpen();
+	bool getClosed();
 
-	vector<Tile> getNeighBours();
+	void setOpen(bool b);
+	void setClosed(bool b);
 
-	void estimateH(Tile  Dest);
-	void estimateG(Tile  orig);
+	vector<Tile*> getNeighBours();
 
-	void setFValue(Tile  Dest, Tile  orig);
+	void estimateH(Tile *Dest);
+	void estimateG(Tile *orig);
+
+	void setFValue(Tile *Dest, Tile *orig);
 
 	void setPriorty(int p);
 
 	int getPriority();
 
-	void setParent(Vector2D v);
-	Tile getParent();
+	void setParent(Tile* tl);
+	Tile* getParent();
+
+	bool operator<(const Tile& t) const;
 
 	void setG(int g);
 	void setH(int g);
@@ -49,12 +59,13 @@ private:
 	int g_Cost;
 	int h_Cost;
 	int f_Cost;
-	Vector2D parentTile;
+	Tile* parentTile;
 
 	int priority;
-	vector<Tile> neighbours;
+	vector<Tile*> neighbours;
 	
 	bool isOpen;
+	bool isClosed;
 
 };
 #endif
