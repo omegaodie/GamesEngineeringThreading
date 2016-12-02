@@ -4,6 +4,7 @@
 #include "Player.h"
 #include <SDL.h>
 #include "AStar.h"
+#include "VisualBrick.h"
 
 class Game
 {
@@ -19,6 +20,7 @@ public:
 	bool IsRunning();
 	void CleanUp();
 private:
+	VisualBrick** theTiles;
 	AStar myStar;
 	bool m_running;
 	SDL_Window* m_p_Window;

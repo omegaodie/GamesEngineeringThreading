@@ -92,6 +92,7 @@
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TinyXML2.cpp" />
     <ClCompile Include="Vector2D.cpp" />
+    <ClCompile Include="VisualBrick.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractFactory.h" />
@@ -110,6 +111,7 @@
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TinyXML2.h" />
     <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="VisualBrick.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Levels.xml">

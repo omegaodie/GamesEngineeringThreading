@@ -13,9 +13,10 @@ class Tile : public Vector2D
 {
 public:
 	Tile();
-	Tile(float x, float y) : Vector2D(x, y) {
+	Tile(float x, float y, int nc) : Vector2D(x, y) {
 		isOpen = false;
 		isClosed = false;
+		numcolumns = nc;
 	};
 	~Tile();
 
@@ -34,7 +35,7 @@ public:
 	void setOpen(bool b);
 	void setClosed(bool b);
 
-	vector<Tile*> getNeighBours();
+	vector<Vector2D*> getNeighBours();
 
 	void estimateH(Tile *Dest);
 	void estimateG(Tile *orig);
@@ -61,8 +62,10 @@ private:
 	int f_Cost;
 	Tile* parentTile;
 
+	int numcolumns;
+
 	int priority;
-	vector<Tile*> neighbours;
+	vector<Vector2D*> neighbours;
 	
 	bool isOpen;
 	bool isClosed;

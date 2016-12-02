@@ -20,7 +20,16 @@ bool Game::Initialize(const char* title, int xpos, int ypos, int width, int heig
 		DEBUG_MSG("SDL Init success");
 		m_p_Window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
 		myStar = AStar();
-		
+		theTiles = new VisualBrick*[10];
+		for (int i = 0; i < 10; i++) {
+				theTiles[i] = new VisualBrick[10];
+				for (int j = 0; j < 10; j++) {
+
+					theTiles[i][j] = VisualBrick();
+					theTiles[i][j].Initialize(i, j, m_p_Renderer, m_p_Window);
+
+				}
+		}
 		if(m_p_Window != 0)
 		{
 			DEBUG_MSG("Window creation success");
@@ -28,7 +37,7 @@ bool Game::Initialize(const char* title, int xpos, int ypos, int width, int heig
 			if(m_p_Renderer != 0)
 			{
 				DEBUG_MSG("Renderer creation success");
-				SDL_SetRenderDrawColor(m_p_Renderer, 255, 255, 255, 255);
+				SDL_SetRenderDrawColor(m_p_Renderer, 255, 0, 255, 255);
 			}
 			else
 			{
@@ -86,7 +95,11 @@ void Game::Render()
 	SDL_RenderClear(m_p_Renderer);
 	DEBUG_MSG("Width Source" + m_Destination.w);
 	DEBUG_MSG("Width Destination" + m_Destination.w);
-
+	for (int k = 0; k < 10; k++) {
+		for (int j = 0; j < 10; j++) {
+			theTiles[k][j].Render(m_p_Renderer);
+		}
+	}
 	if (m_p_Renderer != nullptr && m_p_Texture != nullptr)
 		//SDL_RenderCopy(m_p_Renderer, m_p_Texture, NULL, NULL);
 		//m_Player->Render(m_p_Renderer);

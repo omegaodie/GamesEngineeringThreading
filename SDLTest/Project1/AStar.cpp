@@ -2,11 +2,10 @@
 
 AStar::AStar()
 {
-	for (int i = 0; i < 10; i++) {
-		for (int y = 0; y < 10; y++) {
-			theTiles[y][i] = new Tile(y, i);
-		}
-	}
+	//theTiles = new Tile*[1000];
+	//for (int i = 0; i < 1000; i++) {
+	//		theTiles[i] = new Tile[1000];
+	//}
 }
 
 AStar::~AStar()
@@ -39,7 +38,7 @@ void AStar::sort(Tile* start, Tile* goal) {
 			routefound = true;
 		}
 		else {
-			for each (Tile* t in current->getNeighBours())
+			for each (Vector2D* t in current->getNeighBours())
 			{
 				if (!t->getClosed()) {
 
