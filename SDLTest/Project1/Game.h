@@ -14,7 +14,7 @@ public:
 	bool Initialize(const char*, int, int, int, int, int);
 	void LoadContent();
 	void UnloadContent();
-	void Render();
+	void Render(vector<Vector2D> v);
 	void Update();
 	void HandleEvents();
 	bool IsRunning();

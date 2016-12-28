@@ -90,13 +90,14 @@ void Game::LoadContent()
 	}
 }
 
-void Game::Render()
+void Game::Render(vector<Vector2D>)
 {
 	SDL_RenderClear(m_p_Renderer);
 	DEBUG_MSG("Width Source" + m_Destination.w);
 	DEBUG_MSG("Width Destination" + m_Destination.w);
-	for (int k = 0; k < 10; k++) {
-		for (int j = 0; j < 10; j++) {
+	
+	for (int k = 0; k < 100; k++) {
+		for (int j = 0; j < 100; j++) {
 			theTiles[k][j].Render(m_p_Renderer);
 		}
 	}
@@ -111,7 +112,8 @@ void Game::Render()
 void Game::Update()
 {
 	//DEBUG_MSG("Updating....");
-	myStar.getValue(12, 4, 6, 51);
+	vector<Vector2D> route;
+	route = myStar.getValue(12, 4, 6, 51);
 	//m_Player->Update();
 }
 

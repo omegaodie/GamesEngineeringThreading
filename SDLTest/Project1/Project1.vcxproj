@@ -78,6 +78,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="BasicTypes.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObjectFactory.cpp" />
@@ -87,6 +88,7 @@
     <ClCompile Include="GameObjectParameters.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerFactory.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileLayer.cpp" />
     <ClCompile Include="TileMap.cpp" />
@@ -97,6 +99,7 @@
   <ItemGroup>
     <ClInclude Include="AbstractFactory.h" />
     <ClInclude Include="AStar.h" />
+    <ClInclude Include="BasicTypes.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="GameObject.h" />
@@ -107,6 +110,7 @@
     <ClInclude Include="LevelParser.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerFactory.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TinyXML2.h" />
