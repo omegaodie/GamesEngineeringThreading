@@ -23,7 +23,7 @@ public:
 
 
 private:
-	//Tile** theTiles;
+	Tile** theTiles;
 	vector<Layer*> m_Layers;
 };
 #endif

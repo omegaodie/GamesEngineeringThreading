@@ -111,7 +111,7 @@ void Game::Render()
 void Game::Update()
 {
 	//DEBUG_MSG("Updating....");
-	myStar.getValue(2, 4, 6, 1);
+	myStar.getValue(12, 4, 6, 51);
 	//m_Player->Update();
 }
 

@@ -19,8 +19,9 @@ public:
 	void HandleEvents();
 	bool IsRunning();
 	void CleanUp();
-private:
 	VisualBrick** theTiles;
+private:
+	
 	AStar myStar;
 	bool m_running;
 	SDL_Window* m_p_Window;

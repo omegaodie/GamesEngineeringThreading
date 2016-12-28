@@ -143,68 +143,68 @@ vector<Vector2D*> Tile::getNeighBours()
 {
 	neighbours.reserve(100);
 	if ((m_x == 0) && (m_y == 0)) { // c1
-		neighbours.push_back(new Vector2D(m_x, m_y + 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y + 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y, numcolumns));
+		neighbours.push_back(new Vector2D(m_x, m_y + 1));
+		neighbours.push_back(new Vector2D(m_x + 1, m_y + 1));
+		neighbours.push_back(new Vector2D(m_x + 1, m_y));
 		neighbours.shrink_to_fit();
 	}
 	else if ((m_x == 0) && ((m_y > 0)&& (m_y < numcolumns))) { // c2
-		neighbours.push_back(new Vector2D(m_x, m_y - 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x, m_y + 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y - 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y, numcolumns));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y + 1, numcolumns));
+		neighbours.push_back(new Vector2D(m_x, m_y - 1));
+		neighbours.push_back(new Vector2D(m_x, m_y + 1));
+		neighbours.push_back(new Vector2D(m_x + 1, m_y - 1));
+		neighbours.push_back(new Vector2D(m_x + 1, m_y));
+		neighbours.push_back(new Vector2D(m_x + 1, m_y + 1));
 		neighbours.shrink_to_fit();
 	}
 	else if ((m_x == 0) && ((m_y > 0) && (m_y == numcolumns))) { // c3
-		neighbours.push_back(new Vector2D(m_x, m_y - 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y - 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y, numcolumns));
+		neighbours.push_back(new Vector2D(m_x, m_y - 1));
+		neighbours.push_back(new Vector2D(m_x + 1, m_y - 1));
+		neighbours.push_back(new Vector2D(m_x + 1, m_y));
 		neighbours.shrink_to_fit();
 	}
 	else if ((m_x > 0) && ((m_x < numcolumns) && (m_y == numcolumns))) { // c4
-		neighbours.push_back(new Vector2D(m_x, m_y - 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y - 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y, numcolumns));
+		neighbours.push_back(new Vector2D(m_x, m_y - 1));
+		neighbours.push_back(new Vector2D(m_x + 1, m_y - 1));
+		neighbours.push_back(new Vector2D(m_x + 1, m_y));
 		neighbours.shrink_to_fit();
 	}
 	else if ((m_x == numcolumns) && (m_y == numcolumns)) { // c5
-		neighbours.push_back(new Vector2D(m_x, m_y -1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y, numcolumns));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y - 1, numcolumns));
+		neighbours.push_back(new Vector2D(m_x, m_y -1));
+		neighbours.push_back(new Vector2D(m_x - 1, m_y));
+		neighbours.push_back(new Vector2D(m_x - 1, m_y - 1));
 		neighbours.shrink_to_fit();
 	}
 	else if (((m_x > 0) && (m_y > 0)) && ((m_x < numcolumns) && (m_y < numcolumns))) { // c6
-		neighbours.push_back(new Vector2D(m_x - 1, m_y - 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y, numcolumns));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y + 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x, m_y - 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x, m_y + 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y - 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y, numcolumns));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y + 1, numcolumns));
+		neighbours.push_back(new Vector2D(m_x - 1, m_y - 1));
+		neighbours.push_back(new Vector2D(m_x - 1, m_y));
+		neighbours.push_back(new Vector2D(m_x - 1, m_y + 1));
+		neighbours.push_back(new Vector2D(m_x, m_y - 1));
+		neighbours.push_back(new Vector2D(m_x, m_y + 1));
+		neighbours.push_back(new Vector2D(m_x + 1, m_y - 1));
+		neighbours.push_back(new Vector2D(m_x + 1, m_y));
+		neighbours.push_back(new Vector2D(m_x + 1, m_y + 1));
 		neighbours.shrink_to_fit();
 	}
 	else if ((m_y == 0) && (m_x > 0) && (m_x < numcolumns)) { //c7
-		neighbours.push_back(new Vector2D(m_x - 1, m_y, numcolumns));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y + 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x, m_y + 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y, numcolumns));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y + 1, numcolumns));
+		neighbours.push_back(new Vector2D(m_x - 1, m_y));
+		neighbours.push_back(new Vector2D(m_x - 1, m_y + 1));
+		neighbours.push_back(new Vector2D(m_x, m_y + 1));
+		neighbours.push_back(new Vector2D(m_x + 1, m_y));
+		neighbours.push_back(new Vector2D(m_x + 1, m_y + 1));
 		neighbours.shrink_to_fit();
 	}
 	else if ((m_y == 0) && (m_x > 0) && (m_x == numcolumns)) { //c8
-		neighbours.push_back(new Vector2D(m_x - 1, m_y, numcolumns));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y + 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x, m_y + 1, numcolumns));
+		neighbours.push_back(new Vector2D(m_x - 1, m_y));
+		neighbours.push_back(new Vector2D(m_x - 1, m_y + 1));
+		neighbours.push_back(new Vector2D(m_x, m_y + 1));
 		neighbours.shrink_to_fit();
 	}
 	else { //c9
-		neighbours.push_back(new Vector2D(m_x - 1, m_y, numcolumns));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y + 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y - 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x , m_y - 1, numcolumns));
-		neighbours.push_back(new Vector2D(m_x, m_y + 1, numcolumns));
+		neighbours.push_back(new Vector2D(m_x - 1, m_y));
+		neighbours.push_back(new Vector2D(m_x - 1, m_y + 1));
+		neighbours.push_back(new Vector2D(m_x - 1, m_y - 1));
+		neighbours.push_back(new Vector2D(m_x , m_y - 1));
+		neighbours.push_back(new Vector2D(m_x, m_y + 1));
 		neighbours.shrink_to_fit();
 	}
 	return neighbours;

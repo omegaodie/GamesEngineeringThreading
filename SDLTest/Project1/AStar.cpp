@@ -2,10 +2,13 @@
 
 AStar::AStar()
 {
-	//theTiles = new Tile*[1000];
-	//for (int i = 0; i < 1000; i++) {
-	//		theTiles[i] = new Tile[1000];
-	//}
+	theTiles = new Tile*[100];
+	for (int i = 0; i < 100; i++) {
+			theTiles[i] = new Tile[100];
+			for(int k = 0; k < 100; k++){
+				theTiles[i][k] = Tile(i, k, 100);
+			}
+	}
 }
 
 AStar::~AStar()
@@ -14,8 +17,8 @@ AStar::~AStar()
 }
 
 void AStar::getValue(int x1, int y1, int x2, int y2) {
-	Tile* s = new Tile(x1, y1);
-	Tile* e = new Tile(x2, y2);
+	Tile* s = new Tile(x1, y1, 100);
+	Tile* e = new Tile(x2, y2, 100);
 	sort(s, e);
 }
 
@@ -27,6 +30,7 @@ void AStar::sort(Tile* start, Tile* goal) {
 	bool routefound = false;
 	q2 openQue(compareFunc);
 	//openQue
+	
 	openQue.push(current);
 	while (!openQue.empty()) {
 		current = openQue.top();
@@ -40,17 +44,18 @@ void AStar::sort(Tile* start, Tile* goal) {
 		else {
 			for each (Vector2D* t in current->getNeighBours())
 			{
-				if (!t->getClosed()) {
+				if (!theTiles[(int)t->GetX()][(int)t->GetY()].getClosed()) {
 
-					if(t->estimateDist(start) >= (t->estimateDist(current) + current->getG()))
+					if(theTiles[(int)t->GetX()][(int)t->GetY()].estimateDist(start) >= 
+						(theTiles[(int)t->GetX()][(int)t->GetY()].estimateDist(current) + current->getG()))
 					{
-						t->setG(current->getG() + t->estimateDist(current));
-						t->setParent(current);
-						t->setH(t->estimateDist(goal));
-						t->setF(t->getG() + t->getH());
-						if (!t->getOpen()) {
-							t->setOpen(true);
-							openQue.push(t);
+						theTiles[(int)t->GetX()][(int)t->GetY()].setG(current->getG() + theTiles[(int)t->GetX()][(int)t->GetY()].estimateDist(current));
+						theTiles[(int)t->GetX()][(int)t->GetY()].setParent(current);
+						theTiles[(int)t->GetX()][(int)t->GetY()].setH(theTiles[(int)t->GetX()][(int)t->GetY()].estimateDist(goal));
+						theTiles[(int)t->GetX()][(int)t->GetY()].setF(theTiles[(int)t->GetX()][(int)t->GetY()].getG() + theTiles[(int)t->GetX()][(int)t->GetY()].getH());
+						if (!theTiles[(int)t->GetX()][(int)t->GetY()].getOpen()) {
+							theTiles[(int)t->GetX()][(int)t->GetY()].setOpen(true);
+							openQue.push(&theTiles[(int)t->GetX()][(int)t->GetY()]);
 						}
 					}
 				}
