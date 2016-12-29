@@ -7,6 +7,7 @@ using namespace std;
 
 Game::Game() : m_running(false)
 {
+	//m_REND = Renderer();
 }
 
 Game::~Game()
@@ -15,47 +16,62 @@ Game::~Game()
 
 bool Game::Initialize(const char* title, int xpos, int ypos, int width, int height, int flags)
 {
-	if(SDL_Init(SDL_INIT_EVERYTHING) == 0)
-	{
-		DEBUG_MSG("SDL Init success");
-		m_p_Window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
+	//if(SDL_Init(SDL_INIT_EVERYTHING) == 0)
+	//{
+	//	DEBUG_MSG("SDL Init success");
+	//	m_p_Window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
 		myStar = AStar();
-		theTiles = new VisualBrick*[10];
-		for (int i = 0; i < 10; i++) {
-				theTiles[i] = new VisualBrick[10];
-				for (int j = 0; j < 10; j++) {
+		m_screenSize = Size(800, 600);
 
-					theTiles[i][j] = VisualBrick();
-					theTiles[i][j].Initialize(i, j, m_p_Renderer, m_p_Window);
+		//creates our renderer, which looks after drawing and the window
+		m_REND = Renderer();
+		m_REND.init(m_screenSize, "AStarThreading");
+		m_REND.setViewRect(Rect(0, 0, 800, 600));
 
-				}
-		}
-		if(m_p_Window != 0)
-		{
-			DEBUG_MSG("Window creation success");
-			m_p_Renderer = SDL_CreateRenderer(m_p_Window, -1, 0);
-			if(m_p_Renderer != 0)
-			{
-				DEBUG_MSG("Renderer creation success");
-				SDL_SetRenderDrawColor(m_p_Renderer, 255, 0, 255, 255);
-			}
-			else
-			{
-				DEBUG_MSG("Renderer init fail");
-				return false;
-			}
-		}
-		else
-		{
-			DEBUG_MSG("Window init fail");
-			return false;
-		}
-	}
-	else
-	{
-		DEBUG_MSG("SDL init fail");
-		return false;
-	}
+		//set up the viewport
+		//we want the vp centred on origin and 20 units wide
+		float aspectRatio = m_screenSize.w / m_screenSize.h;
+		Size vpSize(800, 600);
+		Vector2 vpBottomLeft(0, 600);
+
+		Rect vpRect(vpBottomLeft, vpSize);
+		m_REND.setViewPort(vpRect);
+	//	theTiles = new VisualBrick*[10];
+	//	for (int i = 0; i < 10; i++) {
+	//			theTiles[i] = new VisualBrick[10];
+	//			for (int j = 0; j < 10; j++) {
+
+	//				theTiles[i][j] = VisualBrick();
+	//				theTiles[i][j].Initialize(i, j, m_p_Renderer, m_p_Window);
+
+	//			}
+	//	}
+	//	if(m_p_Window != 0)
+	//	{
+	//		DEBUG_MSG("Window creation success");
+	//		m_p_Renderer = SDL_CreateRenderer(m_p_Window, -1, 0);
+	//		if(m_p_Renderer != 0)
+	//		{
+	//			DEBUG_MSG("Renderer creation success");
+	//			SDL_SetRenderDrawColor(m_p_Renderer, 255, 0, 255, 255);
+	//		}
+	//		else
+	//		{
+	//			DEBUG_MSG("Renderer init fail");
+	//			return false;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		DEBUG_MSG("Window init fail");
+	//		return false;
+	//	}
+	//}
+	//else
+	//{
+	//	DEBUG_MSG("SDL init fail");
+	//	return false;
+	//}
 	m_running = true;
 
 	return true;
@@ -65,55 +81,50 @@ bool Game::Initialize(const char* title, int xpos, int ypos, int width, int heig
 
 void Game::LoadContent()
 {
-	DEBUG_MSG("Loading Content");
-	m_p_Surface = SDL_LoadBMP("assets/sprite.bmp");
-	m_p_Texture = SDL_CreateTextureFromSurface(m_p_Renderer, m_p_Surface);
-	SDL_FreeSurface(m_p_Surface);
+	//DEBUG_MSG("Loading Content");
+	//m_p_Surface = SDL_LoadBMP("assets/sprite.bmp");
+	//m_p_Texture = SDL_CreateTextureFromSurface(m_p_Renderer, m_p_Surface);
+	//SDL_FreeSurface(m_p_Surface);
 
-	//m_Player->Initialize(m_p_Renderer);
-	if(SDL_QueryTexture(m_p_Texture, NULL, NULL, &m_Source.w, &m_Destination.h)==0)
-	{
-		m_Destination.x = m_Source.x = 0;
-		m_Destination.y = m_Source.y = 0;
-		m_Destination.w = m_Source.w;
-		m_Destination.h = m_Source.h;
+	////m_Player->Initialize(m_p_Renderer);
+	//if(SDL_QueryTexture(m_p_Texture, NULL, NULL, &m_Source.w, &m_Destination.h)==0)
+	//{
+	//	m_Destination.x = m_Source.x = 0;
+	//	m_Destination.y = m_Source.y = 0;
+	//	m_Destination.w = m_Source.w;
+	//	m_Destination.h = m_Source.h;
 
-		//DEBUG_MSG("Destination X:" + m_Destination.x);
-		/*DEBUG_MSG("Destination Y:" + m_Destination.y);
-		DEBUG_MSG("Destination W:" + m_Destination.w);
-		DEBUG_MSG("Destination H:" + m_Destination.h);*/
-	}
-	else
-	{
-		DEBUG_MSG("Texture Query Failed");
-		m_running = false;
-	}
+	//	//DEBUG_MSG("Destination X:" + m_Destination.x);
+	//	/*DEBUG_MSG("Destination Y:" + m_Destination.y);
+	//	DEBUG_MSG("Destination W:" + m_Destination.w);
+	//	DEBUG_MSG("Destination H:" + m_Destination.h);*/
+	//}
+	//else
+	//{
+	//	DEBUG_MSG("Texture Query Failed");
+	//	m_running = false;
+	//}
 }
 
-void Game::Render(vector<Vector2D>)
+void Game::Render()
 {
-	SDL_RenderClear(m_p_Renderer);
-	DEBUG_MSG("Width Source" + m_Destination.w);
-	DEBUG_MSG("Width Destination" + m_Destination.w);
-	
-	for (int k = 0; k < 100; k++) {
-		for (int j = 0; j < 100; j++) {
-			theTiles[k][j].Render(m_p_Renderer);
-		}
-	}
-	if (m_p_Renderer != nullptr && m_p_Texture != nullptr)
-		//SDL_RenderCopy(m_p_Renderer, m_p_Texture, NULL, NULL);
-		//m_Player->Render(m_p_Renderer);
-
-
-	SDL_RenderPresent(m_p_Renderer);
+	m_REND.clear(Colour(0, 128, 0, 128));
+	m_REND.drawRect(Rect( 80, 60, 80, 60), Colour(255, 0, 255, 128));
+	//for (int y = 0; y < 100; y++) {
+	//	for (int x = 0; x < 100; x++) {
+	//		m_REND.drawRect(Rect(x * 80, y * 60, 8, 6), Colour(128, 0, 255, 128));
+	//	}
+	//}
+	m_REND.present();
 }
 
 void Game::Update()
 {
 	//DEBUG_MSG("Updating....");
-	vector<Vector2D> route;
-	route = myStar.getValue(12, 4, 6, 51);
+	
+	if (route.size() == 0) {
+		route = myStar.getValue(12, 4, 6, 51);
+	}
 	//m_Player->Update();
 }
 
@@ -132,22 +143,22 @@ void Game::HandleEvents()
 					break;
 				case SDLK_UP:
 					DEBUG_MSG("Up Key Pressed");
-					SDL_SetRenderDrawColor(m_p_Renderer, 255, 0, 0, 255);
+					//SDL_SetRenderDrawColor(m_p_Renderer, 255, 0, 0, 255);
 					break;
 				case SDLK_DOWN:
 					DEBUG_MSG("Down Key Pressed");
-					SDL_SetRenderDrawColor(m_p_Renderer, 0, 255, 0, 255);
+					//SDL_SetRenderDrawColor(m_p_Renderer, 0, 255, 0, 255);
 					break;
 				case SDLK_LEFT:
 					DEBUG_MSG("Left Key Pressed");
-					SDL_SetRenderDrawColor(m_p_Renderer, 0, 0, 255, 255);
+					//SDL_SetRenderDrawColor(m_p_Renderer, 0, 0, 255, 255);
 					break;
 				case SDLK_RIGHT:
 					DEBUG_MSG("Right Key Pressed");
-					SDL_SetRenderDrawColor(m_p_Renderer, 255, 255, 255, 255);
+					//SDL_SetRenderDrawColor(m_p_Renderer, 255, 255, 255, 255);
 					break;
 				default:
-					SDL_SetRenderDrawColor(m_p_Renderer, 0, 0, 0, 255);
+					//SDL_SetRenderDrawColor(m_p_Renderer, 0, 0, 0, 255);
 					break;
 				}
 	}
@@ -168,7 +179,7 @@ void Game::UnloadContent()
 void Game::CleanUp()
 {
 	DEBUG_MSG("Cleaning Up");
-	SDL_DestroyWindow(m_p_Window);
-	SDL_DestroyRenderer(m_p_Renderer);
+	//SDL_DestroyWindow(m_p_Window);
+	//SDL_DestroyRenderer(m_p_Renderer);
 	SDL_Quit();
 }
