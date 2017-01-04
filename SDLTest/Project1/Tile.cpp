@@ -81,6 +81,8 @@ bool Tile::getEqual(Tile* t) {
 	}
 }
 
+
+
 void Tile::estimateG(Tile *orig) {//stole this
 	int xd, yd, d;
 
@@ -110,7 +112,10 @@ int Tile::getPriority()
 	return priority;
 }
 
-
+bool Tile::compareParent(Tile* t) {
+	//if (f)
+	return false;
+}
 
 
 

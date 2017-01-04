@@ -48,6 +48,7 @@ public:
 
 	void setParent(Tile* tl);
 	Tile* getParent();
+	bool Tile::compareParent(Tile* t);
 
 	bool operator<(const Tile& t) const;
 
@@ -57,6 +58,7 @@ public:
 
 private:
 	//stuff
+	//bool pare
 	int g_Cost;
 	int h_Cost;
 	int f_Cost;

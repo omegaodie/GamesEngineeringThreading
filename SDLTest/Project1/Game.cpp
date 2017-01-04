@@ -21,18 +21,18 @@ bool Game::Initialize(const char* title, int xpos, int ypos, int width, int heig
 	//	DEBUG_MSG("SDL Init success");
 	//	m_p_Window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
 		myStar = AStar();
-		m_screenSize = Size(800, 600);
+		m_screenSize = Size(1200, 700);
 
 		//creates our renderer, which looks after drawing and the window
 		m_REND = Renderer();
 		m_REND.init(m_screenSize, "AStarThreading");
-		m_REND.setViewRect(Rect(0, 0, 800, 600));
+		m_REND.setViewRect(Rect(0, 0, 1200, 700));
 
 		//set up the viewport
 		//we want the vp centred on origin and 20 units wide
 		float aspectRatio = m_screenSize.w / m_screenSize.h;
-		Size vpSize(800, 600);
-		Vector2 vpBottomLeft(0, 600);
+		Size vpSize(1200, 700);
+		Vector2 vpBottomLeft(0, 0);
 
 		Rect vpRect(vpBottomLeft, vpSize);
 		m_REND.setViewPort(vpRect);
@@ -108,13 +108,28 @@ void Game::LoadContent()
 
 void Game::Render()
 {
-	m_REND.clear(Colour(0, 128, 0, 128));
-	m_REND.drawRect(Rect( 80, 60, 80, 60), Colour(255, 0, 255, 128));
-	//for (int y = 0; y < 100; y++) {
-	//	for (int x = 0; x < 100; x++) {
-	//		m_REND.drawRect(Rect(x * 80, y * 60, 8, 6), Colour(128, 0, 255, 128));
-	//	}
-	//}
+	m_REND.clear(Colour(128, 128, 128, 32));
+	//m_REND.drawRect(Rect( 80, 60, 80, 60), Colour(255, 0, 255, 128));
+	//12, 4, 6, 51
+
+
+
+
+	if (route.size() != 0) {
+		for (int y = 0; y < 10; y++) {
+			for (int x = 0; x < 10; x++) {
+
+				m_REND.drawRect(Rect(x * 120, y * 70, 120, 70), Colour(0, 0, 0, 255));
+
+			}
+		}
+		for each (Vector2D var2D in route)
+		{
+			m_REND.drawFillRect(Rect(var2D.GetX() * 120, var2D.GetY() * 70, 120, 70), Colour(64, 128, 32, 255));
+		}
+	}
+	m_REND.drawFillRect(Rect(2 * 120, 4 * 70, 120, 70), Colour(0, 0, 0, 255));
+	m_REND.drawFillRect(Rect(6 * 120, 5 * 70, 120, 70), Colour(255, 255, 255, 255));
 	m_REND.present();
 }
 
@@ -123,7 +138,7 @@ void Game::Update()
 	//DEBUG_MSG("Updating....");
 	
 	if (route.size() == 0) {
-		route = myStar.getValue(12, 4, 6, 51);
+		route = myStar.getValue(2, 4, 6, 5);
 	}
 	//m_Player->Update();
 }

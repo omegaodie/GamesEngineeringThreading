@@ -19,7 +19,7 @@ public:
 	AStar();
 	~AStar();
 	vector<Vector2D> getValue(int x1, int y1, int x2, int y2);
-	vector<Vector2D> sort( Tile* ot, Tile* et);
+	vector<Vector2D> sort( Tile& ot, Tile& et);
 	vector<Vector2D> reconstruct_path(Tile* et, Tile* st);
 
 
