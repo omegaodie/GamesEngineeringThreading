@@ -21,22 +21,27 @@ bool Game::Initialize(const char* title, int xpos, int ypos, int width, int heig
 	//	DEBUG_MSG("SDL Init success");
 	//	m_p_Window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
 		myStar = AStar();
-		m_screenSize = Size(1200, 700);
+		m_screenSize = Size(2000, 2000);
 
 		//creates our renderer, which looks after drawing and the window
 		m_REND = Renderer();
 		m_REND.init(m_screenSize, "AStarThreading");
-		m_REND.setViewRect(Rect(0, 0, 1200, 700));
+		m_REND.setViewRect(Rect(0, 0, 2000, 2000));
 
 		//set up the viewport
 		//we want the vp centred on origin and 20 units wide
 		float aspectRatio = m_screenSize.w / m_screenSize.h;
-		Size vpSize(1200, 700);
+		Size vpSize(2000, 2000);
 		Vector2 vpBottomLeft(0, 0);
 
 		Rect vpRect(vpBottomLeft, vpSize);
 		m_REND.setViewPort(vpRect);
+
+		start = Vector2D(1, 4);
+		end = Vector2D(8, 4);
 		randomStart();
+		myStar.getWalls(wallOne);
+		
 	//	theTiles = new VisualBrick*[10];
 	//	for (int i = 0; i < 10; i++) {
 	//			theTiles[i] = new VisualBrick[10];
@@ -113,24 +118,29 @@ void Game::Render()
 	//m_REND.drawRect(Rect( 80, 60, 80, 60), Colour(255, 0, 255, 128));
 	//12, 4, 6, 51
 
-
+	for (int y = 0; y < 10; y++) {
+		for (int x = 0; x < 10; x++) {
+			m_REND.drawRect(Rect(x * 50, y * 50, 50, 50), Colour(60, 60, 60, 255));
+		}
+	}
+	for each (Vector2D var in wallOne)
+	{
+		m_REND.drawFillRect(Rect(var.GetX() * 50, var.GetY() * 50, 50, 50), Colour(0, 0, 600, 255));
+	}
 
 
 	if (route.size() != 0) {
-		for (int y = 0; y < 100; y++) {
-			for (int x = 0; x < 100; x++) {
-
-				m_REND.drawRect(Rect(x * 12, y * 7, 12, 7), Colour(0, 0, 0, 255));
-
-			}
-		}
+		
 		for each (Vector2D var2D in route)
 		{
-			m_REND.drawFillRect(Rect(var2D.GetX() * 12, var2D.GetY() * 7, 12, 7), Colour(64, 128, 32, 255));
+			m_REND.drawFillRect(Rect(var2D.GetX() * 50, var2D.GetY() * 50, 50, 50), Colour(64, 128, 32, 255));
 		}
 	}
-	m_REND.drawFillRect(Rect(start.GetX() * 12, start.GetY() * 7, 12, 7), Colour(0, 0, 0, 255));
-	m_REND.drawFillRect(Rect(end.GetX() * 12, end.GetY() * 7, 12, 7), Colour(255, 255, 255, 255));
+	m_REND.drawFillRect(Rect(start.GetX() * 50, start.GetY() * 50, 50, 50), Colour(12, 80, 100, 255));
+	m_REND.drawFillRect(Rect(end.GetX() * 50, end.GetY() * 50, 50, 50), Colour(255, 255, 255, 255));
+
+	//m_REND.drawFillRect(Rect(1 * 50, 6 * 50, 50, 50), Colour(128, 64, 90, 255));
+	//m_REND.drawFillRect(Rect(9 * 50, 6 * 50, 50, 50), Colour(255, 255, 255, 255));
 	m_REND.present();
 }
 
@@ -139,6 +149,7 @@ void Game::Update()
 	//DEBUG_MSG("Updating....");
 	
 	if (route.size() == 0) {
+		//route = myStar.getValue(0, 6, 9, 6);
 		route = myStar.getValue(start.GetX(), start.GetY(), end.GetX(), end.GetY());
 	}
 	//m_Player->Update();
@@ -204,11 +215,23 @@ void Game::randomStart()
 {
 	std::random_device rd;
 	std::mt19937 mt(rd());
-	std::uniform_int_distribution<int> distribution(0, 100);
-	int x1 = distribution(mt);
-	int y1 =  distribution(mt);
-	int x2 = distribution(mt);
-	int y2 = distribution(mt);
+	std::uniform_int_distribution<int> distributionOneX(0, 9);
+	//std::uniform_int_distribution<int> distributionOneY(0, 10);
+	int x1 = distributionOneX(mt);
+	int y1 = distributionOneX(mt);
+	//std::uniform_int_distribution<int> distributionTwoX(x1 + 1, 10);
+	//std::uniform_int_distribution<int> distributionTwoY(y1 + 1, 10);
+	int x2 = distributionOneX(mt);
+	int y2 = distributionOneX(mt);
+
+
+	wallOne.push_back(Vector2D(4, 3));
+	wallOne.push_back(Vector2D(4, 4));
+	wallOne.push_back(Vector2D(4, 5));
+	wallOne.push_back(Vector2D(4, 6));
+	wallOne.push_back(Vector2D(3, 6));
+	wallOne.push_back(Vector2D(5, 6));
+
 
 	start = Vector2D(x1, y1);
 	end = Vector2D(x2, y2);

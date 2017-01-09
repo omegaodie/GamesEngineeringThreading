@@ -23,7 +23,7 @@ public:
 
 	void randomStart();
 private:
-	
+	vector<Vector2D> wallOne;
 	AStar myStar;
 	bool m_running;
 	Renderer m_REND;

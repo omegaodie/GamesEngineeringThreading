@@ -13,7 +13,7 @@ class Tile
 {
 public:
 	Tile();
-	Tile(int x, int y, int nc);
+	Tile(int x, int y, int nc, bool travers);
 	~Tile();
 
 	int getG();
@@ -31,10 +31,9 @@ public:
 	void setOpen(bool b);
 	void setClosed(bool b);
 
-	vector<Vector2D*> getNeighBours();
+	void setWall(bool b);
 
-	void estimateH(Tile *Dest);
-	void estimateG(Tile *orig);
+	vector<Vector2D*> getNeighBours();
 
 	void setFValue(Tile *Dest, Tile *orig);
 
@@ -52,6 +51,8 @@ public:
 	void setH(int g);
 	void setF(int g);
 
+	bool getTraversable();
+
 private:
 	//stuff
 	//bool pare
@@ -66,6 +67,7 @@ private:
 	int priority;
 	vector<Vector2D*> neighbours;
 	
+	bool traversable;
 	bool isOpen;
 	bool isClosed;
 
