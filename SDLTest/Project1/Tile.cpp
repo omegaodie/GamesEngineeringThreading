@@ -8,6 +8,13 @@ Tile::Tile()
 {
 }
 
+Tile::Tile(int x, int y, int nc) {
+	m_V = Vector2D(x, y);
+	isOpen = false;
+	isClosed = false;
+	numcolumns = nc;
+};
+
 Tile::~Tile() {
 
 
@@ -35,9 +42,9 @@ void Tile::estimateH(Tile *Dest) {//stole this
 	static int xd, yd, d;
 
 
-	xd = Dest->GetX() - m_x;
+	xd = Dest->getV2D().GetX() - m_V.GetX();
 
-	yd = Dest->GetY() - m_y;
+	yd = Dest->getV2D().GetY() - m_V.GetY();
 
 	// Euclidian Distance
 	d = static_cast<int>(sqrt(xd*xd + yd*yd));
@@ -55,9 +62,9 @@ int Tile::estimateDist(Tile *tile) {//stole this
 	static int xd, yd, d;
 
 
-	xd = tile->GetX() - m_x;
+	xd = tile->getV2D().GetX() - m_V.GetX();
 
-	yd = tile->GetY() - m_y;
+	yd = tile->getV2D().GetY() - m_V.GetY();
 
 	// Euclidian Distance
 	d = static_cast<int>(sqrt(xd*xd + yd*yd));
@@ -72,7 +79,7 @@ int Tile::estimateDist(Tile *tile) {//stole this
 }
 
 bool Tile::getEqual(Tile* t) {
-	if ((m_x == t->GetX()) && (m_y == t->GetY())) {
+	if ((m_V.GetX() == t->getV2D().GetX()) && (m_V.GetY() == t->getV2D().GetY())) {
 		return true;
 	}
 	else
@@ -86,9 +93,9 @@ bool Tile::getEqual(Tile* t) {
 void Tile::estimateG(Tile *orig) {//stole this
 	int xd, yd, d;
 
-	xd = orig->GetX() - m_x;
+	xd = orig->getV2D().GetX() - m_V.GetX();
 
-	yd = orig->GetY() - m_y;
+	yd = orig->getV2D().GetY() - m_V.GetY();
 
 	// Euclidian Distance
 	d = static_cast<int>(sqrt(xd*xd + yd*yd));
@@ -134,7 +141,7 @@ int Tile::getF() const {
 
 Vector2D Tile::getV2D()
 {
-	return Vector2D(GetX(), GetY());
+	return m_V;
 }
 bool Tile::getClosed() {
 	return isClosed;
@@ -147,69 +154,69 @@ bool Tile::getOpen() {
 vector<Vector2D*> Tile::getNeighBours()
 {
 	neighbours.reserve(100);
-	if ((m_x == 0) && (m_y == 0)) { // c1
-		neighbours.push_back(new Vector2D(m_x, m_y + 1));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y + 1));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y));
+	if ((m_V.GetX() == 0) && (m_V.GetY() == 0)) { // c1
+		neighbours.push_back(new Vector2D(m_V.GetX(), m_V.GetY() + 1));
+		neighbours.push_back(new Vector2D(m_V.GetX() + 1, m_V.GetY() + 1));
+		neighbours.push_back(new Vector2D(m_V.GetX() + 1, m_V.GetY()));
 		neighbours.shrink_to_fit();
 	}
-	else if ((m_x == 0) && ((m_y > 0)&& (m_y < numcolumns))) { // c2
-		neighbours.push_back(new Vector2D(m_x, m_y - 1));
-		neighbours.push_back(new Vector2D(m_x, m_y + 1));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y - 1));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y + 1));
+	else if ((m_V.GetX() == 0) && ((m_V.GetY() > 0)&& (m_V.GetY() < numcolumns))) { // c2
+		neighbours.push_back(new Vector2D(m_V.GetX(), m_V.GetY() - 1));
+		neighbours.push_back(new Vector2D(m_V.GetX(), m_V.GetY() + 1));
+		neighbours.push_back(new Vector2D(m_V.GetX() + 1, m_V.GetY() - 1));
+		neighbours.push_back(new Vector2D(m_V.GetX() + 1, m_V.GetY()));
+		neighbours.push_back(new Vector2D(m_V.GetX() + 1, m_V.GetY() + 1));
 		neighbours.shrink_to_fit();
 	}
-	else if ((m_x == 0) && ((m_y > 0) && (m_y == numcolumns))) { // c3
-		neighbours.push_back(new Vector2D(m_x, m_y - 1));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y - 1));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y));
+	else if ((m_V.GetX() == 0) && ((m_V.GetY() > 0) && (m_V.GetY() == numcolumns))) { // c3
+		neighbours.push_back(new Vector2D(m_V.GetX(), m_V.GetY() - 1));
+		neighbours.push_back(new Vector2D(m_V.GetX() + 1, m_V.GetY() - 1));
+		neighbours.push_back(new Vector2D(m_V.GetX() + 1, m_V.GetY()));
 		neighbours.shrink_to_fit();
 	}
-	else if ((m_x > 0) && ((m_x < numcolumns) && (m_y == numcolumns))) { // c4
-		neighbours.push_back(new Vector2D(m_x, m_y - 1));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y - 1));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y));
+	else if ((m_V.GetX() > 0) && ((m_V.GetX() < numcolumns) && (m_V.GetY() == numcolumns))) { // c4
+		neighbours.push_back(new Vector2D(m_V.GetX(), m_V.GetY() - 1));
+		neighbours.push_back(new Vector2D(m_V.GetX() + 1, m_V.GetY() - 1));
+		neighbours.push_back(new Vector2D(m_V.GetX() + 1, m_V.GetY()));
 		neighbours.shrink_to_fit();
 	}
-	else if ((m_x == numcolumns) && (m_y == numcolumns)) { // c5
-		neighbours.push_back(new Vector2D(m_x, m_y -1));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y - 1));
+	else if ((m_V.GetX() == numcolumns) && (m_V.GetY() == numcolumns)) { // c5
+		neighbours.push_back(new Vector2D(m_V.GetX(), m_V.GetY() -1));
+		neighbours.push_back(new Vector2D(m_V.GetX() - 1, m_V.GetY()));
+		neighbours.push_back(new Vector2D(m_V.GetX() - 1, m_V.GetY() - 1));
 		neighbours.shrink_to_fit();
 	}
-	else if (((m_x > 0) && (m_y > 0)) && ((m_x < numcolumns) && (m_y < numcolumns))) { // c6
-		neighbours.push_back(new Vector2D(m_x - 1, m_y - 1));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y + 1));
-		neighbours.push_back(new Vector2D(m_x, m_y - 1));
-		neighbours.push_back(new Vector2D(m_x, m_y + 1));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y - 1));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y + 1));
+	else if (((m_V.GetX() > 0) && (m_V.GetY() > 0)) && ((m_V.GetX() < numcolumns) && (m_V.GetY() < numcolumns))) { // c6
+		neighbours.push_back(new Vector2D(m_V.GetX() - 1, m_V.GetY() - 1));
+		neighbours.push_back(new Vector2D(m_V.GetX() - 1, m_V.GetY()));
+		neighbours.push_back(new Vector2D(m_V.GetX() - 1, m_V.GetY() + 1));
+		neighbours.push_back(new Vector2D(m_V.GetX(), m_V.GetY() - 1));
+		neighbours.push_back(new Vector2D(m_V.GetX(), m_V.GetY() + 1));
+		neighbours.push_back(new Vector2D(m_V.GetX() + 1, m_V.GetY() - 1));
+		neighbours.push_back(new Vector2D(m_V.GetX() + 1, m_V.GetY()));
+		neighbours.push_back(new Vector2D(m_V.GetX() + 1, m_V.GetY() + 1));
 		neighbours.shrink_to_fit();
 	}
-	else if ((m_y == 0) && (m_x > 0) && (m_x < numcolumns)) { //c7
-		neighbours.push_back(new Vector2D(m_x - 1, m_y));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y + 1));
-		neighbours.push_back(new Vector2D(m_x, m_y + 1));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y));
-		neighbours.push_back(new Vector2D(m_x + 1, m_y + 1));
+	else if ((m_V.GetY() == 0) && (m_V.GetX() > 0) && (m_V.GetX() < numcolumns)) { //c7
+		neighbours.push_back(new Vector2D(m_V.GetX() - 1, m_V.GetY()));
+		neighbours.push_back(new Vector2D(m_V.GetX() - 1, m_V.GetY() + 1));
+		neighbours.push_back(new Vector2D(m_V.GetX(), m_V.GetY() + 1));
+		neighbours.push_back(new Vector2D(m_V.GetX() + 1, m_V.GetY()));
+		neighbours.push_back(new Vector2D(m_V.GetX() + 1, m_V.GetY() + 1));
 		neighbours.shrink_to_fit();
 	}
-	else if ((m_y == 0) && (m_x > 0) && (m_x == numcolumns)) { //c8
-		neighbours.push_back(new Vector2D(m_x - 1, m_y));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y + 1));
-		neighbours.push_back(new Vector2D(m_x, m_y + 1));
+	else if ((m_V.GetY() == 0) && (m_V.GetX() > 0) && (m_V.GetX() == numcolumns)) { //c8
+		neighbours.push_back(new Vector2D(m_V.GetX() - 1, m_V.GetY()));
+		neighbours.push_back(new Vector2D(m_V.GetX() - 1, m_V.GetY() + 1));
+		neighbours.push_back(new Vector2D(m_V.GetX(), m_V.GetY() + 1));
 		neighbours.shrink_to_fit();
 	}
 	else { //c9
-		neighbours.push_back(new Vector2D(m_x - 1, m_y));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y + 1));
-		neighbours.push_back(new Vector2D(m_x - 1, m_y - 1));
-		neighbours.push_back(new Vector2D(m_x , m_y - 1));
-		neighbours.push_back(new Vector2D(m_x, m_y + 1));
+		neighbours.push_back(new Vector2D(m_V.GetX() - 1, m_V.GetY()));
+		neighbours.push_back(new Vector2D(m_V.GetX() - 1, m_V.GetY() + 1));
+		neighbours.push_back(new Vector2D(m_V.GetX() - 1, m_V.GetY() - 1));
+		neighbours.push_back(new Vector2D(m_V.GetX() , m_V.GetY() - 1));
+		neighbours.push_back(new Vector2D(m_V.GetX(), m_V.GetY() + 1));
 		neighbours.shrink_to_fit();
 	}
 	return neighbours;

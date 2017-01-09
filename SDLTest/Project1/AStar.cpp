@@ -2,11 +2,11 @@
 
 AStar::AStar()
 {
-	theTiles = new Tile*[10];
-	for (int i = 0; i < 10; i++) {
-			theTiles[i] = new Tile[10];
-			for(int k = 0; k < 10; k++){
-				theTiles[i][k] = Tile(i, k, 10);
+	theTiles = new Tile*[100];
+	for (int i = 0; i < 100; i++) {
+			theTiles[i] = new Tile[100];
+			for(int k = 0; k < 100; k++){
+				theTiles[i][k] = Tile(i, k, 100);
 			}
 	}
 }
@@ -48,34 +48,34 @@ vector<Vector2D> AStar::sort(Tile& start, Tile& goal) {
 		else {
 			for each (Vector2D* t in current->getNeighBours())
 			{
-				if (!theTiles[(int)t->GetX()][(int)t->GetY()].getClosed()) {
+				if (!theTiles[t->GetX()][t->GetY()].getClosed()) {
 
-					if(theTiles[(int)t->GetX()][(int)t->GetY()].estimateDist(&start) >= 
-						(theTiles[(int)t->GetX()][(int)t->GetY()].estimateDist(current) + current->getG()))
+					if(theTiles[t->GetX()][t->GetY()].estimateDist(&start) >= 
+						(theTiles[t->GetX()][t->GetY()].estimateDist(current) + current->getG()))
 					{
 
 						int tentativeG = current->getG() +
-							theTiles[(int)t->GetX()][(int)t->GetY()].estimateDist(current);
+							theTiles[t->GetX()][t->GetY()].estimateDist(current);
 				
 
-						if ((theTiles[(int)t->GetX()][(int)t->GetY()].getG() > tentativeG) ||
-							(!theTiles[(int)t->GetX()][(int)t->GetY()].getOpen()))
+						if ((theTiles[t->GetX()][t->GetY()].getG() > tentativeG) ||
+							(!theTiles[t->GetX()][t->GetY()].getOpen()))
 						{
 
-							theTiles[(int)t->GetX()][(int)t->GetY()].setG(tentativeG);
+							theTiles[t->GetX()][t->GetY()].setG(tentativeG);
 
-							theTiles[(int)t->GetX()][(int)t->GetY()].
-							setH(theTiles[(int)t->GetX()][(int)t->GetY()].estimateDist(&goal));
+							theTiles[t->GetX()][t->GetY()].
+							setH(theTiles[t->GetX()][t->GetY()].estimateDist(&goal));
 
-							theTiles[(int)t->GetX()][(int)t->GetY()].
-							setF(theTiles[(int)t->GetX()][(int)t->GetY()].getG() + 
-								theTiles[(int)t->GetX()][(int)t->GetY()].getH());
+							theTiles[t->GetX()][t->GetY()].
+							setF(theTiles[t->GetX()][t->GetY()].getG() + 
+								theTiles[t->GetX()][t->GetY()].getH());
 
-							theTiles[(int)t->GetX()][(int)t->GetY()].setParent(current);
+							theTiles[t->GetX()][t->GetY()].setParent(current);
 
-							if (!theTiles[(int)t->GetX()][(int)t->GetY()].getOpen()) {
-								theTiles[(int)t->GetX()][(int)t->GetY()].setOpen(true);
-								openQue.push(&theTiles[(int)t->GetX()][(int)t->GetY()]);
+							if (!theTiles[t->GetX()][t->GetY()].getOpen()) {
+								theTiles[t->GetX()][t->GetY()].setOpen(true);
+								openQue.push(&theTiles[t->GetX()][t->GetY()]);
 							}
 						}
 					}
@@ -88,12 +88,12 @@ vector<Vector2D> AStar::sort(Tile& start, Tile& goal) {
 
 vector<Vector2D> AStar::reconstruct_path(Tile*cameFrom, Tile*end) {
 	vector<Vector2D> myroute;
-	Vector2D beiningofend = Vector2D(end->GetX(), end->GetY());
-	Vector2D current = Vector2D(cameFrom->GetX(), cameFrom->GetY());
+	Vector2D beiningofend = Vector2D(end->getV2D().GetX(), end->getV2D().GetY());
+	Vector2D current = Vector2D(cameFrom->getV2D().GetX(), cameFrom->getV2D().GetY());
 	while (!(current.GetX() == beiningofend.GetX() && current.GetY() == beiningofend.GetY()))
 	{
-		Vector2D parent = Vector2D(theTiles[(int)current.GetX()][(int)current.GetY()].getParent()->GetX(), 
-			theTiles[(int)current.GetX()][(int)current.GetY()].getParent()->GetY());
+		Vector2D parent = Vector2D(theTiles[current.GetX()][current.GetY()].getParent()->getV2D().GetX(),
+			theTiles[current.GetX()][current.GetY()].getParent()->getV2D().GetY());
 		myroute.push_back(Vector2D(current));
 		current = parent;
 	}

@@ -5,6 +5,8 @@
 #include <SDL.h>
 #include "AStar.h"
 #include "Renderer.h"
+#include <random>
+
 class Game
 {
 public:
@@ -18,12 +20,16 @@ public:
 	void HandleEvents();
 	bool IsRunning();
 	void CleanUp();
+
+	void randomStart();
 private:
 	
 	AStar myStar;
 	bool m_running;
 	Renderer m_REND;
 	vector<Vector2D> route;
+	Vector2D start;
+	Vector2D end;
 	Size m_screenSize;
 	//SDL_Window* m_p_Window;
 	////SDL_Renderer* m_p_Renderer;

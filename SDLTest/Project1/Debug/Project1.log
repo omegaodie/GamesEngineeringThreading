@@ -1,4 +1,7 @@
-﻿  AStar.cpp
-c:\users\eco\desktop\ge\sdltest\project1\astar.cpp(9): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  Game.cpp
+c:\users\eco\desktop\ge\sdltest\project1\game.cpp(123): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\eco\desktop\ge\sdltest\project1\game.cpp(129): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\eco\desktop\ge\sdltest\project1\game.cpp(132): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\eco\desktop\ge\sdltest\project1\game.cpp(133): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Project1.vcxproj -> C:\Users\ECO\Desktop\GE\SDLTest\Project1\Debug\Project1.exe
   Project1.vcxproj -> C:\Users\ECO\Desktop\GE\SDLTest\Project1\Debug\Project1.pdb (Full PDB)

@@ -5,19 +5,15 @@
 #include <string>
 #include <vector>
 #include "Vector2D.h"
-
+#include "BasicTypes.h"
 
 using namespace std;
 
-class Tile : public Vector2D
+class Tile
 {
 public:
 	Tile();
-	Tile(float x, float y, int nc) : Vector2D(x, y) {
-		isOpen = false;
-		isClosed = false;
-		numcolumns = nc;
-	};
+	Tile(int x, int y, int nc);
 	~Tile();
 
 	int getG();
@@ -59,6 +55,7 @@ public:
 private:
 	//stuff
 	//bool pare
+	Vector2D m_V;
 	int g_Cost;
 	int h_Cost;
 	int f_Cost;

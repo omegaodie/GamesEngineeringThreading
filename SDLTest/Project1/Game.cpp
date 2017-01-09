@@ -36,6 +36,7 @@ bool Game::Initialize(const char* title, int xpos, int ypos, int width, int heig
 
 		Rect vpRect(vpBottomLeft, vpSize);
 		m_REND.setViewPort(vpRect);
+		randomStart();
 	//	theTiles = new VisualBrick*[10];
 	//	for (int i = 0; i < 10; i++) {
 	//			theTiles[i] = new VisualBrick[10];
@@ -116,20 +117,20 @@ void Game::Render()
 
 
 	if (route.size() != 0) {
-		for (int y = 0; y < 10; y++) {
-			for (int x = 0; x < 10; x++) {
+		for (int y = 0; y < 100; y++) {
+			for (int x = 0; x < 100; x++) {
 
-				m_REND.drawRect(Rect(x * 120, y * 70, 120, 70), Colour(0, 0, 0, 255));
+				m_REND.drawRect(Rect(x * 12, y * 7, 12, 7), Colour(0, 0, 0, 255));
 
 			}
 		}
 		for each (Vector2D var2D in route)
 		{
-			m_REND.drawFillRect(Rect(var2D.GetX() * 120, var2D.GetY() * 70, 120, 70), Colour(64, 128, 32, 255));
+			m_REND.drawFillRect(Rect(var2D.GetX() * 12, var2D.GetY() * 7, 12, 7), Colour(64, 128, 32, 255));
 		}
 	}
-	m_REND.drawFillRect(Rect(2 * 120, 4 * 70, 120, 70), Colour(0, 0, 0, 255));
-	m_REND.drawFillRect(Rect(6 * 120, 5 * 70, 120, 70), Colour(255, 255, 255, 255));
+	m_REND.drawFillRect(Rect(start.GetX() * 12, start.GetY() * 7, 12, 7), Colour(0, 0, 0, 255));
+	m_REND.drawFillRect(Rect(end.GetX() * 12, end.GetY() * 7, 12, 7), Colour(255, 255, 255, 255));
 	m_REND.present();
 }
 
@@ -138,7 +139,7 @@ void Game::Update()
 	//DEBUG_MSG("Updating....");
 	
 	if (route.size() == 0) {
-		route = myStar.getValue(2, 4, 6, 5);
+		route = myStar.getValue(start.GetX(), start.GetY(), end.GetX(), end.GetY());
 	}
 	//m_Player->Update();
 }
@@ -197,4 +198,18 @@ void Game::CleanUp()
 	//SDL_DestroyWindow(m_p_Window);
 	//SDL_DestroyRenderer(m_p_Renderer);
 	SDL_Quit();
+}
+
+void Game::randomStart()
+{
+	std::random_device rd;
+	std::mt19937 mt(rd());
+	std::uniform_int_distribution<int> distribution(0, 100);
+	int x1 = distribution(mt);
+	int y1 =  distribution(mt);
+	int x2 = distribution(mt);
+	int y2 = distribution(mt);
+
+	start = Vector2D(x1, y1);
+	end = Vector2D(x2, y2);
 }

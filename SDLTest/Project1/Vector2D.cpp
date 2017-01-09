@@ -4,26 +4,26 @@ Vector2D::Vector2D()
 {
 }
 
-Vector2D::Vector2D(float x, float y) : m_x(x), m_y(y)
+Vector2D::Vector2D(int x, int y) : m_x(x), m_y(y)
 {
 }
 
-float Vector2D::GetX()
+int Vector2D::GetX()
 {
 	return m_x;
 }
 
-float Vector2D::GetY()
+int Vector2D::GetY()
 {
 	return m_y;
 }
 
-void Vector2D::SetX(float x)
+void Vector2D::SetX(int x)
 {
 	m_x = x;
 }
 
-void Vector2D::SetY(float y)
+void Vector2D::SetY(int y)
 {
 	m_y = y;
 }
