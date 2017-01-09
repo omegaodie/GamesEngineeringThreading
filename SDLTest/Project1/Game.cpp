@@ -21,24 +21,24 @@ bool Game::Initialize(const char* title, int xpos, int ypos, int width, int heig
 	//	DEBUG_MSG("SDL Init success");
 	//	m_p_Window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
 		myStar = AStar();
-		m_screenSize = Size(2000, 2000);
+		m_screenSize = Size(900, 900);
 
 		//creates our renderer, which looks after drawing and the window
 		m_REND = Renderer();
 		m_REND.init(m_screenSize, "AStarThreading");
-		m_REND.setViewRect(Rect(0, 0, 2000, 2000));
+		m_REND.setViewRect(Rect(0, 0, 900, 900));
 
 		//set up the viewport
 		//we want the vp centred on origin and 20 units wide
 		float aspectRatio = m_screenSize.w / m_screenSize.h;
-		Size vpSize(2000, 2000);
+		Size vpSize(900, 900);
 		Vector2 vpBottomLeft(0, 0);
 
 		Rect vpRect(vpBottomLeft, vpSize);
 		m_REND.setViewPort(vpRect);
 
-		start = Vector2D(1, 4);
-		end = Vector2D(8, 4);
+		//start = Vector2D(1, 4);
+		//end = Vector2D(8, 4);
 		randomStart();
 		myStar.getWalls(wallOne);
 		
@@ -225,14 +225,25 @@ void Game::randomStart()
 	int y2 = distributionOneX(mt);
 
 
-	wallOne.push_back(Vector2D(4, 3));
-	wallOne.push_back(Vector2D(4, 4));
-	wallOne.push_back(Vector2D(4, 5));
-	wallOne.push_back(Vector2D(4, 6));
-	wallOne.push_back(Vector2D(3, 6));
-	wallOne.push_back(Vector2D(5, 6));
+	wallOne.push_back(Vector2D(2, 0));
+	wallOne.push_back(Vector2D(2, 1));
+	wallOne.push_back(Vector2D(2, 2));
+	wallOne.push_back(Vector2D(2, 3));
+	wallOne.push_back(Vector2D(2, 4));
+	wallOne.push_back(Vector2D(2, 5));
+	wallOne.push_back(Vector2D(2, 6));
+	wallOne.push_back(Vector2D(2, 7));
+
+	//wallOne.push_back(Vector2D(6, 2));
+	//wallOne.push_back(Vector2D(6, 3));
+	//wallOne.push_back(Vector2D(6, 4));
+	//wallOne.push_back(Vector2D(6, 5));
+	//wallOne.push_back(Vector2D(6, 6));
+	//wallOne.push_back(Vector2D(6, 7));
+	//wallOne.push_back(Vector2D(6, 8));
+	//wallOne.push_back(Vector2D(6, 9));
 
 
-	start = Vector2D(x1, y1);
-	end = Vector2D(x2, y2);
+	start = Vector2D(1, 1);
+	end = Vector2D(9, 1);
 }

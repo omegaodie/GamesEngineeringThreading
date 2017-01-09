@@ -6,15 +6,15 @@ AStar::AStar()
 	for (int i = 0; i < 10; i++) {
 			theTiles[i] = new Tile[10];
 			for(int k = 0; k < 10; k++){
-				if ((i == 2)&&( k == 2)) {
-					theTiles[i][k] = Tile(i, k, 10, false);
-				}
+				//if ((i == 2)&&( k == 2)) {
+				//	theTiles[i][k] = Tile(i, k, 10, false);
+				//}
 				//if ((i == 2) && (k > 2)) {
 				//	theTiles[i][k] = Tile(i, k, 10, false);
 				//}
-				else if ((i == 3) && (k == 4)) {
-					theTiles[i][k] = Tile(i, k, 10, false);
-				}
+				//else if ((i == 3) && (k == 4)) {
+				//	theTiles[i][k] = Tile(i, k, 10, false);
+				//}
 				//else if ((i == 5) && (k == 4)) {
 				//	theTiles[i][k] = Tile(i, k, 10, false);
 				//}
@@ -29,9 +29,9 @@ AStar::AStar()
 				//		theTiles[i][k] = Tile(i, k, 100, true);
 				//	}
 				//}
-				else {
+				//else {
 					theTiles[i][k] = Tile(i, k, 10, true);
-				}
+				//}
 			}
 	}
 }
