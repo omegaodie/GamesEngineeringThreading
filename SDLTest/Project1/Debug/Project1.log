@@ -1,5 +1,6 @@
-﻿  Game.cpp
-c:\users\gameuser\desktop\gamesengineering\gamesengineeringthreading\sdltest\project1\game.cpp(170): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+﻿  main.cpp
+c:\users\gameuser\desktop\gamesengineering\gamesengineeringthreading\sdltest\project1\main.cpp(45): warning C4002: too many actual parameters for macro 'DEBUG_MSG'
+c:\users\gameuser\desktop\gamesengineering\gamesengineeringthreading\sdltest\project1\main.cpp(49): warning C4002: too many actual parameters for macro 'DEBUG_MSG'
   Generating Code...
   Skipping... (no relevant changes detected)
   VisualBrick.cpp

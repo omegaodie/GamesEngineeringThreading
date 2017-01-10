@@ -36,7 +36,7 @@ bool Game::Initialize(const char* title, int xpos, int ypos, int width, int heig
 
 		Rect vpRect(vpBottomLeft, vpSize);
 		m_REND.setViewPort(vpRect);
-		gridSize = 100;
+		gridSize = 1000;
 		//start = Vector2D(1, 4);
 		//end = Vector2D(8, 4);
 		randomStart();
@@ -84,7 +84,7 @@ void Game::Render()
 
 	for (int y = 0; y < gridSize; y++) {
 		for (int x = 0; x < gridSize; x++) {
-			m_REND.drawRect(Rect(x * (m_screenSize.w / gridSize), y * (m_screenSize.h / gridSize), (m_screenSize.w / gridSize), (m_screenSize.w / gridSize)), Colour(60, 60, 60, 255));
+			m_REND.drawFillRect(Rect(x * (m_screenSize.w / gridSize), y * (m_screenSize.h / gridSize), (m_screenSize.w / gridSize), (m_screenSize.w / gridSize)), Colour(60, 60, 255, 128));
 		}
 	}
 	for each (Vector2D var in wallOne)
@@ -167,7 +167,7 @@ void Game::mousePress(SDL_MouseButtonEvent& b) {
 	if (b.button == SDL_BUTTON_LEFT) {
 		Vector2D actual = Vector2D(b.x, b.y);
 		myStar.initiialise(wallOne, gridSize);
-		end = Vector2D(b.x / sqrt(gridSize) , b.y / sqrt(gridSize));
+		end = Vector2D(b.x / (m_screenSize.w / gridSize) , b.y / (m_screenSize.h / gridSize));
 		route = myStar.getValue(start.GetX(), start.GetY(), end.GetX(), end.GetY());
 	}
 }
@@ -207,12 +207,12 @@ void Game::randomStart()
 
 
 
-	for (int i = 0; i < 80; i++) {
-		wallOne.push_back(Vector2D(20, i));
-		wallOne.push_back(Vector2D(60, (100 - i)));
+	for (int i = 0; i < 800; i++) {
+		wallOne.push_back(Vector2D(200, i));
+		wallOne.push_back(Vector2D(600, (1000 - i)));
 	}
 
 
-	start = Vector2D(x1, y1);
+	start = Vector2D(100, 60);
 	end = Vector2D(x2, y2);
 }
