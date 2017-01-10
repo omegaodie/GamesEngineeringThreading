@@ -2,43 +2,34 @@
 
 AStar::AStar()
 {
-	theTiles = new Tile*[10];
-	for (int i = 0; i < 10; i++) {
-			theTiles[i] = new Tile[10];
-			for(int k = 0; k < 10; k++){
-				//if ((i == 2)&&( k == 2)) {
-				//	theTiles[i][k] = Tile(i, k, 10, false);
-				//}
-				//if ((i == 2) && (k > 2)) {
-				//	theTiles[i][k] = Tile(i, k, 10, false);
-				//}
-				//else if ((i == 3) && (k == 4)) {
-				//	theTiles[i][k] = Tile(i, k, 10, false);
-				//}
-				//else if ((i == 5) && (k == 4)) {
-				//	theTiles[i][k] = Tile(i, k, 10, false);
-				//}
-				//else if ((i == 5) && (k == 6)) {
-				//	theTiles[i][k] = Tile(i, k, 10, false);
-				//}
-				//else if (i == 80) {
-				//	if (k <= 80) {
-				//		theTiles[i][k] = Tile(i, k, 100, false);
-				//	}
-				//	else {
-				//		theTiles[i][k] = Tile(i, k, 100, true);
-				//	}
-				//}
-				//else {
-					theTiles[i][k] = Tile(i, k, 10, true);
-				//}
-			}
-	}
+	//theTiles = new Tile*[100];
+	//for (int i = 0; i < 100; i++) {
+	//	theTiles[i] = new Tile[100];
+	//		for(int k = 0; k < 100; k++)
+	//		{
+	//			theTiles[i][k] = Tile(i, k, 100, true);
+	//		}
+	//}
 }
 
 AStar::~AStar()
 {
 
+}
+
+void AStar::initiialise(vector<Vector2D> w, int s)
+{
+	theTiles = new Tile*[s];
+	for (int i = 0; i < s; i++) {
+		theTiles[i] = new Tile[s];
+		for (int k = 0; k < s; k++)
+		{
+			theTiles[i][k] = Tile(i, k, s, true);
+		}
+	}
+
+
+	getWalls(w);
 }
 
 void AStar::getWalls(vector<Vector2D> w)
@@ -94,34 +85,26 @@ vector<Vector2D> AStar::sort(Tile& start, Tile& goal) {
 				{
 					if (!theTiles[t->GetX()][t->GetY()].getClosed()) {
 
-						if (theTiles[t->GetX()][t->GetY()].estimateDist(&start) >=
-							(theTiles[t->GetX()][t->GetY()].estimateDist(current) + current->getG()))
+						int tentativeG = current->getG() +
+							theTiles[t->GetX()][t->GetY()].estimateDist(current);
+
+						if ((theTiles[t->GetX()][t->GetY()].getG() > tentativeG) ||
+							(!theTiles[t->GetX()][t->GetY()].getOpen()))
 						{
 
-							int tentativeG = current->getG() +
-								theTiles[t->GetX()][t->GetY()].estimateDist(current);
-
-
-							if ((theTiles[t->GetX()][t->GetY()].getG() > tentativeG) ||
-								(!theTiles[t->GetX()][t->GetY()].getOpen()))
-							{
-
-								theTiles[t->GetX()][t->GetY()].setG(tentativeG);
-
-								theTiles[t->GetX()][t->GetY()].
-									setH(theTiles[t->GetX()][t->GetY()].estimateDist(&goal));
-
-								theTiles[t->GetX()][t->GetY()].
-									setF(theTiles[t->GetX()][t->GetY()].getG() +
-										theTiles[t->GetX()][t->GetY()].getH());
 
 								theTiles[t->GetX()][t->GetY()].setParent(current);
+
+								theTiles[t->GetX()][t->GetY()].setG(tentativeG); // G
+
+								theTiles[t->GetX()][t->GetY()].setH(theTiles[t->GetX()][t->GetY()].estimateDist(&goal)); // H
+
+								theTiles[t->GetX()][t->GetY()].setF(theTiles[t->GetX()][t->GetY()].getG() +	theTiles[t->GetX()][t->GetY()].getH()); // F
 
 								if (!theTiles[t->GetX()][t->GetY()].getOpen()) {
 									theTiles[t->GetX()][t->GetY()].setOpen(true);
 									openQue.push(&theTiles[t->GetX()][t->GetY()]);
 								}
-							}
 						}
 					}
 				}

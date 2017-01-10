@@ -1,4 +1,5 @@
-﻿  Tile.cpp
+﻿  Game.cpp
+c:\users\gameuser\desktop\gamesengineering\gamesengineeringthreading\sdltest\project1\game.cpp(170): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
   Generating Code...
   Skipping... (no relevant changes detected)
   VisualBrick.cpp
@@ -14,5 +15,5 @@
   GameObjectFactory.cpp
   GameObject.cpp
   BasicTypes.cpp
-  Project1.vcxproj -> C:\Users\ECO\Desktop\GE\SDLTest\Project1\Debug\Project1.exe
-  Project1.vcxproj -> C:\Users\ECO\Desktop\GE\SDLTest\Project1\Debug\Project1.pdb (Full PDB)
+  Project1.vcxproj -> C:\Users\gameuser\Desktop\GAMESENGINEERING\GamesEngineeringThreading\SDLTest\Project1\Debug\Project1.exe
+  Project1.vcxproj -> C:\Users\gameuser\Desktop\GAMESENGINEERING\GamesEngineeringThreading\SDLTest\Project1\Debug\Project1.pdb (Full PDB)

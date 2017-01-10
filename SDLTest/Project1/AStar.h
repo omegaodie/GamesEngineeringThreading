@@ -18,6 +18,7 @@ class AStar
 public:
 	AStar();
 	~AStar();
+	void initiialise(vector<Vector2D> w, int s);
 	void getWalls(vector<Vector2D> w);
 	vector<Vector2D> getValue(int x1, int y1, int x2, int y2);
 	vector<Vector2D> sort( Tile& ot, Tile& et);

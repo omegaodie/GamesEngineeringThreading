@@ -21,64 +21,28 @@ bool Game::Initialize(const char* title, int xpos, int ypos, int width, int heig
 	//	DEBUG_MSG("SDL Init success");
 	//	m_p_Window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
 		myStar = AStar();
-		m_screenSize = Size(900, 900);
+		m_screenSize = Size(1000, 1000);
 
 		//creates our renderer, which looks after drawing and the window
 		m_REND = Renderer();
 		m_REND.init(m_screenSize, "AStarThreading");
-		m_REND.setViewRect(Rect(0, 0, 900, 900));
+		m_REND.setViewRect(Rect(0, 0, m_screenSize.w, m_screenSize.h));
 
 		//set up the viewport
 		//we want the vp centred on origin and 20 units wide
 		float aspectRatio = m_screenSize.w / m_screenSize.h;
-		Size vpSize(900, 900);
+		Size vpSize(m_screenSize.w, m_screenSize.h);
 		Vector2 vpBottomLeft(0, 0);
 
 		Rect vpRect(vpBottomLeft, vpSize);
 		m_REND.setViewPort(vpRect);
-
+		gridSize = 100;
 		//start = Vector2D(1, 4);
 		//end = Vector2D(8, 4);
 		randomStart();
-		myStar.getWalls(wallOne);
+		myStar.initiialise(wallOne, gridSize);
 		
-	//	theTiles = new VisualBrick*[10];
-	//	for (int i = 0; i < 10; i++) {
-	//			theTiles[i] = new VisualBrick[10];
-	//			for (int j = 0; j < 10; j++) {
-
-	//				theTiles[i][j] = VisualBrick();
-	//				theTiles[i][j].Initialize(i, j, m_p_Renderer, m_p_Window);
-
-	//			}
-	//	}
-	//	if(m_p_Window != 0)
-	//	{
-	//		DEBUG_MSG("Window creation success");
-	//		m_p_Renderer = SDL_CreateRenderer(m_p_Window, -1, 0);
-	//		if(m_p_Renderer != 0)
-	//		{
-	//			DEBUG_MSG("Renderer creation success");
-	//			SDL_SetRenderDrawColor(m_p_Renderer, 255, 0, 255, 255);
-	//		}
-	//		else
-	//		{
-	//			DEBUG_MSG("Renderer init fail");
-	//			return false;
-	//		}
-	//	}
-	//	else
-	//	{
-	//		DEBUG_MSG("Window init fail");
-	//		return false;
-	//	}
-	//}
-	//else
-	//{
-	//	DEBUG_MSG("SDL init fail");
-	//	return false;
-	//}
-	m_running = true;
+		m_running = true;
 
 	return true;
 }
@@ -118,14 +82,14 @@ void Game::Render()
 	//m_REND.drawRect(Rect( 80, 60, 80, 60), Colour(255, 0, 255, 128));
 	//12, 4, 6, 51
 
-	for (int y = 0; y < 10; y++) {
-		for (int x = 0; x < 10; x++) {
-			m_REND.drawRect(Rect(x * 50, y * 50, 50, 50), Colour(60, 60, 60, 255));
+	for (int y = 0; y < gridSize; y++) {
+		for (int x = 0; x < gridSize; x++) {
+			m_REND.drawRect(Rect(x * (m_screenSize.w / gridSize), y * (m_screenSize.h / gridSize), (m_screenSize.w / gridSize), (m_screenSize.w / gridSize)), Colour(60, 60, 60, 255));
 		}
 	}
 	for each (Vector2D var in wallOne)
 	{
-		m_REND.drawFillRect(Rect(var.GetX() * 50, var.GetY() * 50, 50, 50), Colour(0, 0, 600, 255));
+		m_REND.drawFillRect(Rect(var.GetX() * (m_screenSize.w / gridSize), var.GetY() * (m_screenSize.w / gridSize), (m_screenSize.w / gridSize), (m_screenSize.w / gridSize)), Colour(0, 0, 600, 255));
 	}
 
 
@@ -133,14 +97,12 @@ void Game::Render()
 		
 		for each (Vector2D var2D in route)
 		{
-			m_REND.drawFillRect(Rect(var2D.GetX() * 50, var2D.GetY() * 50, 50, 50), Colour(64, 128, 32, 255));
+			m_REND.drawFillRect(Rect(var2D.GetX() * (m_screenSize.w / gridSize), var2D.GetY() * (m_screenSize.w / gridSize), (m_screenSize.w / gridSize), (m_screenSize.w / gridSize)), Colour(64, 128, 32, 255));
 		}
 	}
-	m_REND.drawFillRect(Rect(start.GetX() * 50, start.GetY() * 50, 50, 50), Colour(12, 80, 100, 255));
-	m_REND.drawFillRect(Rect(end.GetX() * 50, end.GetY() * 50, 50, 50), Colour(255, 255, 255, 255));
+	m_REND.drawFillRect(Rect(start.GetX() * (m_screenSize.w / gridSize), start.GetY() * (m_screenSize.w / gridSize), (m_screenSize.w / gridSize), (m_screenSize.w / gridSize)), Colour(12, 80, 100, 255));
+	m_REND.drawFillRect(Rect(end.GetX() * (m_screenSize.w / gridSize), end.GetY() * (m_screenSize.w / gridSize), (m_screenSize.w / gridSize), (m_screenSize.w / gridSize)), Colour(255, 255, 255, 255));
 
-	//m_REND.drawFillRect(Rect(1 * 50, 6 * 50, 50, 50), Colour(128, 64, 90, 255));
-	//m_REND.drawFillRect(Rect(9 * 50, 6 * 50, 50, 50), Colour(255, 255, 255, 255));
 	m_REND.present();
 }
 
@@ -151,6 +113,7 @@ void Game::Update()
 	if (route.size() == 0) {
 		//route = myStar.getValue(0, 6, 9, 6);
 		route = myStar.getValue(start.GetX(), start.GetY(), end.GetX(), end.GetY());
+		redraw = false;
 	}
 	//m_Player->Update();
 }
@@ -161,33 +124,51 @@ void Game::HandleEvents()
 
 	while (SDL_PollEvent(&event))
 	{
-		switch(event.type)
-			case SDL_KEYDOWN:
-				switch(event.key.keysym.sym)
-				{
-				case SDLK_ESCAPE:
-					m_running = false;
-					break;
-				case SDLK_UP:
-					DEBUG_MSG("Up Key Pressed");
-					//SDL_SetRenderDrawColor(m_p_Renderer, 255, 0, 0, 255);
-					break;
-				case SDLK_DOWN:
-					DEBUG_MSG("Down Key Pressed");
-					//SDL_SetRenderDrawColor(m_p_Renderer, 0, 255, 0, 255);
-					break;
-				case SDLK_LEFT:
-					DEBUG_MSG("Left Key Pressed");
-					//SDL_SetRenderDrawColor(m_p_Renderer, 0, 0, 255, 255);
-					break;
-				case SDLK_RIGHT:
-					DEBUG_MSG("Right Key Pressed");
-					//SDL_SetRenderDrawColor(m_p_Renderer, 255, 255, 255, 255);
-					break;
-				default:
-					//SDL_SetRenderDrawColor(m_p_Renderer, 0, 0, 0, 255);
-					break;
-				}
+		switch (event.type) {
+
+		case SDL_MOUSEBUTTONDOWN:
+			//do whatever you want to do after a mouse button was pressed,
+			// e.g.:
+			mousePress(event.button);
+			break;
+		case SDL_KEYDOWN:
+			switch (event.key.keysym.sym)
+			{
+			case SDLK_ESCAPE:
+				m_running = false;
+				break;
+			case SDLK_UP:
+				DEBUG_MSG("Up Key Pressed");
+				//SDL_SetRenderDrawColor(m_p_Renderer, 255, 0, 0, 255);
+				break;
+			case SDLK_DOWN:
+				DEBUG_MSG("Down Key Pressed");
+				//SDL_SetRenderDrawColor(m_p_Renderer, 0, 255, 0, 255);
+				break;
+			case SDLK_LEFT:
+				DEBUG_MSG("Left Key Pressed");
+				//SDL_SetRenderDrawColor(m_p_Renderer, 0, 0, 255, 255);
+				break;
+			case SDLK_RIGHT:
+				DEBUG_MSG("Right Key Pressed");
+				//SDL_SetRenderDrawColor(m_p_Renderer, 255, 255, 255, 255);
+				break;
+			default:
+				//SDL_SetRenderDrawColor(m_p_Renderer, 0, 0, 0, 255);
+				break;
+			}
+		}
+			
+	}
+}
+
+
+void Game::mousePress(SDL_MouseButtonEvent& b) {
+	if (b.button == SDL_BUTTON_LEFT) {
+		Vector2D actual = Vector2D(b.x, b.y);
+		myStar.initiialise(wallOne, gridSize);
+		end = Vector2D(b.x / sqrt(gridSize) , b.y / sqrt(gridSize));
+		route = myStar.getValue(start.GetX(), start.GetY(), end.GetX(), end.GetY());
 	}
 }
 
@@ -215,7 +196,7 @@ void Game::randomStart()
 {
 	std::random_device rd;
 	std::mt19937 mt(rd());
-	std::uniform_int_distribution<int> distributionOneX(0, 9);
+	std::uniform_int_distribution<int> distributionOneX(0, gridSize);
 	//std::uniform_int_distribution<int> distributionOneY(0, 10);
 	int x1 = distributionOneX(mt);
 	int y1 = distributionOneX(mt);
@@ -225,25 +206,13 @@ void Game::randomStart()
 	int y2 = distributionOneX(mt);
 
 
-	wallOne.push_back(Vector2D(2, 0));
-	wallOne.push_back(Vector2D(2, 1));
-	wallOne.push_back(Vector2D(2, 2));
-	wallOne.push_back(Vector2D(2, 3));
-	wallOne.push_back(Vector2D(2, 4));
-	wallOne.push_back(Vector2D(2, 5));
-	wallOne.push_back(Vector2D(2, 6));
-	wallOne.push_back(Vector2D(2, 7));
 
-	//wallOne.push_back(Vector2D(6, 2));
-	//wallOne.push_back(Vector2D(6, 3));
-	//wallOne.push_back(Vector2D(6, 4));
-	//wallOne.push_back(Vector2D(6, 5));
-	//wallOne.push_back(Vector2D(6, 6));
-	//wallOne.push_back(Vector2D(6, 7));
-	//wallOne.push_back(Vector2D(6, 8));
-	//wallOne.push_back(Vector2D(6, 9));
+	for (int i = 0; i < 80; i++) {
+		wallOne.push_back(Vector2D(20, i));
+		wallOne.push_back(Vector2D(60, (100 - i)));
+	}
 
 
-	start = Vector2D(1, 1);
-	end = Vector2D(9, 1);
+	start = Vector2D(x1, y1);
+	end = Vector2D(x2, y2);
 }

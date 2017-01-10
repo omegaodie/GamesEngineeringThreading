@@ -20,9 +20,10 @@ public:
 	void HandleEvents();
 	bool IsRunning();
 	void CleanUp();
-
+	void mousePress(SDL_MouseButtonEvent& b);
 	void randomStart();
 private:
+	bool waiting, redraw;
 	vector<Vector2D> wallOne;
 	AStar myStar;
 	bool m_running;
@@ -31,6 +32,7 @@ private:
 	Vector2D start;
 	Vector2D end;
 	Size m_screenSize;
+	int gridSize;
 	//SDL_Window* m_p_Window;
 	////SDL_Renderer* m_p_Renderer;
 	////SDL_Texture* m_p_Texture;
