@@ -36,7 +36,7 @@ bool Game::Initialize(const char* title, int xpos, int ypos, int width, int heig
 
 		Rect vpRect(vpBottomLeft, vpSize);
 		m_REND.setViewPort(vpRect);
-		gridSize = 1000;
+		gridSize = 100;
 		//start = Vector2D(1, 4);
 		//end = Vector2D(8, 4);
 		randomStart();
@@ -51,29 +51,7 @@ bool Game::Initialize(const char* title, int xpos, int ypos, int width, int heig
 
 void Game::LoadContent()
 {
-	//DEBUG_MSG("Loading Content");
-	//m_p_Surface = SDL_LoadBMP("assets/sprite.bmp");
-	//m_p_Texture = SDL_CreateTextureFromSurface(m_p_Renderer, m_p_Surface);
-	//SDL_FreeSurface(m_p_Surface);
 
-	////m_Player->Initialize(m_p_Renderer);
-	//if(SDL_QueryTexture(m_p_Texture, NULL, NULL, &m_Source.w, &m_Destination.h)==0)
-	//{
-	//	m_Destination.x = m_Source.x = 0;
-	//	m_Destination.y = m_Source.y = 0;
-	//	m_Destination.w = m_Source.w;
-	//	m_Destination.h = m_Source.h;
-
-	//	//DEBUG_MSG("Destination X:" + m_Destination.x);
-	//	/*DEBUG_MSG("Destination Y:" + m_Destination.y);
-	//	DEBUG_MSG("Destination W:" + m_Destination.w);
-	//	DEBUG_MSG("Destination H:" + m_Destination.h);*/
-	//}
-	//else
-	//{
-	//	DEBUG_MSG("Texture Query Failed");
-	//	m_running = false;
-	//}
 }
 
 void Game::Render()
@@ -110,9 +88,32 @@ void Game::Update()
 {
 	//DEBUG_MSG("Updating....");
 	
-	if (route.size() == 0) {
-		//route = myStar.getValue(0, 6, 9, 6);
-		route = myStar.getValue(start.GetX(), start.GetY(), end.GetX(), end.GetY());
+	//if (route.size() == 0) {
+	//	//route = myStar.getValue(0, 6, 9, 6);
+	//	route = myStar.getValue(start.GetX(), start.GetY(), end.GetX(), end.GetY());
+	//	
+	//}
+	
+	if (waiting) {
+		if (routeA.size() == 0) {
+			routeA = myStar.getValue(start.GetX(), start.GetY(), end.GetX() / 2, end.GetY() / 2);
+		}
+		if (routeA.size() != 0 && routeB.size() != 0)
+		{
+			waiting = false;
+			redraw = true;
+		}
+	}
+
+	if (redraw) {
+		for each (Vector2D v2A in routeA)
+		{
+			route.push_back(v2A);
+		}
+		for each (Vector2D v2B in routeB)
+		{
+			route.push_back(v2B);
+		}
 		redraw = false;
 	}
 	//m_Player->Update();
@@ -168,7 +169,9 @@ void Game::mousePress(SDL_MouseButtonEvent& b) {
 		Vector2D actual = Vector2D(b.x, b.y);
 		myStar.initiialise(wallOne, gridSize);
 		end = Vector2D(b.x / (m_screenSize.w / gridSize) , b.y / (m_screenSize.h / gridSize));
-		route = myStar.getValue(start.GetX(), start.GetY(), end.GetX(), end.GetY());
+		waiting = true;
+		dataToSend = true;
+		//route = myStar.getValue(start.GetX(), start.GetY(), end.GetX(), end.GetY());
 	}
 }
 
@@ -192,6 +195,12 @@ void Game::CleanUp()
 	SDL_Quit();
 }
 
+
+void Game::clean() {
+	route.clear();
+	m_REND.clear(Colour(128, 128, 128, 32));
+}
+
 void Game::randomStart()
 {
 	std::random_device rd;
@@ -204,15 +213,50 @@ void Game::randomStart()
 	//std::uniform_int_distribution<int> distributionTwoY(y1 + 1, 10);
 	int x2 = distributionOneX(mt);
 	int y2 = distributionOneX(mt);
+	std::uniform_int_distribution<int> distributionTwo(-10, 10);
+	int dif = distributionTwo(mt);
 
+	for (int i = 0; i < 80; i++) {
+		wallOne.push_back(Vector2D(20 + (dif), i));
 
+		wallOne.push_back(Vector2D(40 + (dif), ((50 + dif) - i)));
 
-	for (int i = 0; i < 800; i++) {
-		wallOne.push_back(Vector2D(200, i));
-		wallOne.push_back(Vector2D(600, (1000 - i)));
+		wallOne.push_back(Vector2D(60 + (dif), ((50 - dif) - i)));
 	}
 
 
-	start = Vector2D(100, 60);
+	start = Vector2D(10, 6);
 	end = Vector2D(x2, y2);
+}
+
+Vector2D Game::getStart()
+{
+	return start;
+}
+
+Vector2D Game::getEnd()
+{
+	return end;
+}
+
+void Game::setB(vector<Vector2D> v)
+{
+	routeB = v;
+	clean();
+}
+
+AStar * Game::getAstar()
+{
+	AStar* retStar = &myStar;
+	return retStar;
+}
+
+bool Game::getDataToSend()
+{
+	return dataToSend;
+}
+
+void Game::setDataToSend(bool b)
+{
+	dataToSend = b;
 }

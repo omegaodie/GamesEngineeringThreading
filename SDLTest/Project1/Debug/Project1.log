@@ -1,20 +1,4 @@
-﻿  main.cpp
-c:\users\gameuser\desktop\gamesengineering\gamesengineeringthreading\sdltest\project1\main.cpp(45): warning C4002: too many actual parameters for macro 'DEBUG_MSG'
-c:\users\gameuser\desktop\gamesengineering\gamesengineeringthreading\sdltest\project1\main.cpp(49): warning C4002: too many actual parameters for macro 'DEBUG_MSG'
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  VisualBrick.cpp
-  Vector2D.cpp
-  TinyXML2.cpp
-  TileLayer.cpp
-  Renderer.cpp
-  PlayerFactory.cpp
-  Player.cpp
-  Level.cpp
-  Layer.cpp
-  GameObjectParameters.cpp
-  GameObjectFactory.cpp
-  GameObject.cpp
-  BasicTypes.cpp
+﻿  Game.cpp
+c:\users\gameuser\desktop\gamesengineering\gamesengineeringthreading\sdltest\project1\game.cpp(171): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   Project1.vcxproj -> C:\Users\gameuser\Desktop\GAMESENGINEERING\GamesEngineeringThreading\SDLTest\Project1\Debug\Project1.exe
   Project1.vcxproj -> C:\Users\gameuser\Desktop\GAMESENGINEERING\GamesEngineeringThreading\SDLTest\Project1\Debug\Project1.pdb (Full PDB)

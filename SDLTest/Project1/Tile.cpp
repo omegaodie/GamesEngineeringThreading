@@ -6,6 +6,7 @@
 
 Tile::Tile()
 {
+
 }
 
 Tile::Tile(int x, int y, int nc, bool travers) {

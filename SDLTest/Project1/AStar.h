@@ -5,10 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "Debug.h"
 #include "Tile.h"
 #include "Vector2D.h"
-#include "Layer.h"
 #include <queue>
 
 using namespace std;
@@ -17,6 +15,7 @@ class AStar
 {
 public:
 	AStar();
+	AStar(AStar& a);
 	~AStar();
 	void initiialise(vector<Vector2D> w, int s);
 	void getWalls(vector<Vector2D> w);
@@ -24,11 +23,10 @@ public:
 	vector<Vector2D> sort( Tile& ot, Tile& et);
 	vector<Vector2D> reconstruct_path(Tile* et, Tile* st);
 
-
 private:
 	vector<Vector2D> wall;
 	Tile** theTiles;
-	vector<Layer*> m_Layers;
+	//vector<Vector2D> m_Layers;
 };
 #endif
 #pragma once

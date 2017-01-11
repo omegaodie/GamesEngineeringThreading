@@ -12,6 +12,10 @@ AStar::AStar()
 	//}
 }
 
+AStar::AStar(AStar & a)
+{
+}
+
 AStar::~AStar()
 {
 
@@ -128,6 +132,7 @@ vector<Vector2D> AStar::reconstruct_path(Tile*cameFrom, Tile*end) {
 	myroute.push_back(beiningofend);
 	return myroute;
 }
+
 //total_path : = [current]
 //	while current in cameFrom.Keys :
 //		current : = cameFrom[current]

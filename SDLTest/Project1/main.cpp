@@ -12,55 +12,51 @@
 using namespace std;
 using namespace tinyxml2;
 
-// Very simple thread - counts 0 to 9 delaying 50ms between increments
-static int TestThread(void *ptr)
-{
-	int cnt = 1; 
 
-	ThreadData *tdata = (ThreadData*)ptr;
-	int param1 = tdata->param1;
-	char param2 = tdata->param2;
-	free(ptr);
-
-
-	return cnt;
-}
 
 typedef struct {
-	int param1;
-	char param2;
+	Vector2D start;
+	Vector2D end;
+	AStar* starRef;
+	Game* gme;
+	vector<Vector2D> routeB;
+	bool AorB; // true for A false for B
 } ThreadData;
+
+static int TestThread(void *ptr)
+{
+	ThreadData *tdata = (ThreadData*)ptr;
+
+	
+	Vector2D l_start = tdata->start;
+	Vector2D l_end = tdata->end;
+	bool l_AorB = tdata->AorB;
+	AStar* threadStar = tdata->starRef;
+	tdata->routeB = threadStar->getValue(l_start.GetX() / 2, l_start.GetY() / 2, l_end.GetX(), l_end.GetY());
+
+
+	int cnt = 1;
+	return cnt;
+
+
+}
+
+
 
 
 int main(int argc, char** argv){
 
 	DEBUG_MSG("Game Object Created");
 
+	SDL_mutex *mutex;
+	mutex = SDL_CreateMutex();
+
+
 	Game* game = new Game();
-	SDL_Thread *thread;
-	int         threadReturnValue;
-
-	ThreadData *data = malloc(sizeof(ThreadData));
-	data->param1 = 1;
-	data->param2 = 'red';
-	thread = SDL_CreateThread(TestThread, "TestThread", (void *)data);
-
-
-	printf("\nSimple SDL_CreateThread test:");
-
-	// Simply create a thread
-	thread = SDL_CreateThread(TestThread, "TestThread", (void *)NULL);
-
-	if (NULL == thread) {
-		DEBUG_MSG("\nSDL_CreateThread failed: %s\n", SDL_GetError());
-	}
-	else {
-		SDL_WaitThread(thread, &threadReturnValue);
-		DEBUG_MSG("\nThread returned value: %d", threadReturnValue);
-	}
-
-
-
+	ThreadData *data = new ThreadData;
+	SDL_Thread *thread = NULL;
+	int threadReturnValue = 0;
+	vector<Vector2D> routeB;
 	game->Initialize("DGPP Skelatol",300,100,800,600, SDL_WINDOW_INPUT_FOCUS);
 	
 
@@ -70,6 +66,33 @@ int main(int argc, char** argv){
 		game->HandleEvents();
 		game->Update();
 		game->Render();
+		if (game->getDataToSend()) {
+				data->start = game->getStart();
+				data->end = game->getEnd();
+				data->AorB = false;
+				data->routeB;
+				data->gme = game;
+				data->starRef = game->getAstar();
+				game->setDataToSend(false);
+				thread = SDL_CreateThread(TestThread, "TestThread", data);
+		}
+		if (NULL != thread) {
+
+				if (SDL_LockMutex(mutex) == 0) {
+					while (data->routeB.size() == 0) {
+						SDL_WaitThread(thread, &threadReturnValue);
+					}
+					SDL_UnlockMutex(mutex);
+					thread = NULL;
+				}
+				else {
+					fprintf(stderr, "Couldn't lock mutex\n");
+				}
+				
+				game->setB(data->routeB);
+
+				DEBUG_MSG("\nThread returned value: %d", threadReturnValue);
+		}
 	}
 
 	DEBUG_MSG("Calling Cleanup");
@@ -80,3 +103,20 @@ int main(int argc, char** argv){
 }
 
 
+//SDL_mutex *mutex;
+//
+//mutex = SDL_CreateMutex();
+//if (!mutex) {
+//	fprintf(stderr, "Couldn't create mutex\n");
+//	return;
+//}
+//
+//if (SDL_LockMutex(mutex) == 0) {
+//	/* Do stuff while mutex is locked */
+//	SDL_UnlockMutex(mutex);
+//}
+//else {
+//	fprintf(stderr, "Couldn't lock mutex\n");
+//}
+//
+//SDL_DestroyMutex(mutex);

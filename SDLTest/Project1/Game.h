@@ -22,24 +22,29 @@ public:
 	void CleanUp();
 	void mousePress(SDL_MouseButtonEvent& b);
 	void randomStart();
+	Vector2D getStart();
+	Vector2D getEnd();
+	void setB(vector<Vector2D> v);
+	AStar* getAstar();
+
+	void clean();
+
+	bool getDataToSend();
+	void setDataToSend(bool b);
 private:
-	bool waiting, redraw;
+	bool waiting, redraw, dataToSend;
 	vector<Vector2D> wallOne;
 	AStar myStar;
 	bool m_running;
 	Renderer m_REND;
 	vector<Vector2D> route;
+	vector<Vector2D> routeA;
+	vector<Vector2D> routeB;
 	Vector2D start;
 	Vector2D end;
 	Size m_screenSize;
 	int gridSize;
-	//SDL_Window* m_p_Window;
-	////SDL_Renderer* m_p_Renderer;
-	////SDL_Texture* m_p_Texture;
-	//SDL_Rect m_Source;
-	//SDL_Rect m_Destination;
-	//SDL_Surface* m_p_Surface;
-	//Player*  m_Player;
+
  
 };
 #endif
