@@ -27,18 +27,9 @@ static int TestThread(void *ptr)
 {
 	ThreadData *tdata = (ThreadData*)ptr;
 
-	
-	Vector2D l_start = tdata->start;
-	Vector2D l_end = tdata->end;
-	bool l_AorB = tdata->AorB;
-	AStar* threadStar = tdata->starRef;
-	tdata->routeB = threadStar->getValue(l_start.GetX() / 2, l_start.GetY() / 2, l_end.GetX(), l_end.GetY());
-
-
+	tdata->routeB = tdata->starRef->getValue((tdata->start.GetX() + tdata->end.GetX()) / 2, (tdata->start.GetY() + tdata->end.GetY()) / 2, tdata->end.GetX(), tdata->end.GetY());
 	int cnt = 1;
 	return cnt;
-
-
 }
 
 
@@ -74,24 +65,23 @@ int main(int argc, char** argv){
 				data->gme = game;
 				data->starRef = game->getAstar();
 				game->setDataToSend(false);
-				thread = SDL_CreateThread(TestThread, "TestThread", data);
-		}
-		if (NULL != thread) {
-
 				if (SDL_LockMutex(mutex) == 0) {
-					while (data->routeB.size() == 0) {
-						SDL_WaitThread(thread, &threadReturnValue);
-					}
+					thread = SDL_CreateThread(TestThread, "TestThread", data);
 					SDL_UnlockMutex(mutex);
-					thread = NULL;
+					//
 				}
 				else {
 					fprintf(stderr, "Couldn't lock mutex\n");
 				}
 				
-				game->setB(data->routeB);
-
-				DEBUG_MSG("\nThread returned value: %d", threadReturnValue);
+		}
+		if ((NULL != thread)&&(data->routeB.size() != 0)) {
+			//while (data->routeB.size() == 0) {
+			//	//SDL_WaitThread(thread, &threadReturnValue);
+			//}
+			game->setB(data->routeB);
+			thread = NULL;
+			DEBUG_MSG("\nThread returned value: %d", threadReturnValue);
 		}
 	}
 

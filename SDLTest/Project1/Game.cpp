@@ -88,15 +88,13 @@ void Game::Update()
 {
 	//DEBUG_MSG("Updating....");
 	
-	//if (route.size() == 0) {
-	//	//route = myStar.getValue(0, 6, 9, 6);
-	//	route = myStar.getValue(start.GetX(), start.GetY(), end.GetX(), end.GetY());
-	//	
-	//}
+	if ((route.size() == 0)&&(!waiting)) {
+		route = myStar.getValue(start.GetX(), start.GetY(), end.GetX(), end.GetY());
+	}
 	
 	if (waiting) {
 		if (routeA.size() == 0) {
-			routeA = myStar.getValue(start.GetX(), start.GetY(), end.GetX() / 2, end.GetY() / 2);
+			routeA = myStar.getValue(start.GetX(), start.GetY(), (start.GetX() + end.GetX() / 2), (start.GetY() + end.GetY()) / 2);
 		}
 		if (routeA.size() != 0 && routeB.size() != 0)
 		{
@@ -166,6 +164,9 @@ void Game::HandleEvents()
 
 void Game::mousePress(SDL_MouseButtonEvent& b) {
 	if (b.button == SDL_BUTTON_LEFT) {
+		route.clear();
+		routeA.clear();
+		routeB.clear();
 		Vector2D actual = Vector2D(b.x, b.y);
 		myStar.initiialise(wallOne, gridSize);
 		end = Vector2D(b.x / (m_screenSize.w / gridSize) , b.y / (m_screenSize.h / gridSize));
@@ -197,8 +198,7 @@ void Game::CleanUp()
 
 
 void Game::clean() {
-	route.clear();
-	m_REND.clear(Colour(128, 128, 128, 32));
+	//route.clear();
 }
 
 void Game::randomStart()
@@ -213,19 +213,19 @@ void Game::randomStart()
 	//std::uniform_int_distribution<int> distributionTwoY(y1 + 1, 10);
 	int x2 = distributionOneX(mt);
 	int y2 = distributionOneX(mt);
-	std::uniform_int_distribution<int> distributionTwo(-10, 10);
+	std::uniform_int_distribution<int> distributionTwo(0, 10);
 	int dif = distributionTwo(mt);
 
 	for (int i = 0; i < 80; i++) {
 		wallOne.push_back(Vector2D(20 + (dif), i));
 
-		wallOne.push_back(Vector2D(40 + (dif), ((50 + dif) - i)));
+		wallOne.push_back(Vector2D(40 + (dif), ((10 + dif) + i)));
 
-		wallOne.push_back(Vector2D(60 + (dif), ((50 - dif) - i)));
+		wallOne.push_back(Vector2D(60 + (dif), ((90 - dif) - i)));
 	}
 
 
-	start = Vector2D(10, 6);
+	start = Vector2D(x1, x2);
 	end = Vector2D(x2, y2);
 }
 
@@ -242,7 +242,7 @@ Vector2D Game::getEnd()
 void Game::setB(vector<Vector2D> v)
 {
 	routeB = v;
-	clean();
+	//clean();
 }
 
 AStar * Game::getAstar()
